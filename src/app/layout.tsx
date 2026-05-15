@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
   },
   verification: {
-    google: "",
+    google: "MTsCUahlvhCfrmxCiVffsg2isT9pWtdtCHGJTo",
   },
 };
 
