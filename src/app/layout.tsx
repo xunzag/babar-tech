@@ -15,55 +15,66 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const BASE_URL = "https://babartechsolutions.com";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://babartechsolutions.com"),
+  metadataBase: new URL(BASE_URL),
   icons: {
     icon: "/logo.jpg",
     apple: "/logo.jpg",
+    shortcut: "/logo.jpg",
   },
   title: {
-    default: "Babar Tech Solutions — Premium Software & Remote Workforce",
+    default: "Babar Tech Solutions — Top Rated Upwork Agency | Remote Workforce & Software",
     template: "%s | Babar Tech Solutions",
   },
   description:
-    "Elite freelancing and software solutions agency. We deliver world-class web development, UI/UX design, automation, and remote workforce solutions for global businesses.",
+    "Babar Tech Solutions is a Top Rated Upwork agency with 100% Job Success Score. We provide expert virtual assistants, customer service teams, sales support, and web development — ready to work within 24 hours.",
   keywords: [
-    "software solutions",
-    "web development",
-    "UI/UX design",
-    "remote workforce",
-    "automation",
-    "Upwork",
-    "freelancing agency",
-    "virtual assistant",
-    "technical support",
     "Babar Tech Solutions",
+    "Upwork agency",
+    "top rated Upwork agency",
+    "virtual assistant agency",
+    "remote customer service",
+    "sales support outsourcing",
+    "web development agency",
+    "customer success specialist",
+    "remote workforce solutions",
+    "lead generation agency",
+    "hire virtual assistant",
+    "outsourced customer support",
+    "remote team Pakistan",
+    "Fahad Ali",
+    "freelance agency",
   ],
-  authors: [{ name: "Fahad Ali", url: "https://babartechsolutions.com" }],
+  authors: [{ name: "Fahad Ali", url: BASE_URL }],
   creator: "Babar Tech Solutions",
+  publisher: "Babar Tech Solutions",
+  category: "Business",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://babartechsolutions.com",
+    url: BASE_URL,
     siteName: "Babar Tech Solutions",
-    title: "Babar Tech Solutions — Premium Software & Remote Workforce",
+    title: "Babar Tech Solutions — Top Rated Upwork Agency",
     description:
-      "Elite freelancing and software solutions agency delivering world-class digital services globally.",
+      "100% Job Success Score · Top Rated · 5.0★. Expert virtual assistants, customer service, sales support & web development. Onboarded and working within 24 hours.",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Babar Tech Solutions",
+        url: "/logo.jpg",
+        width: 800,
+        height: 800,
+        alt: "Babar Tech Solutions — Top Rated Upwork Agency",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Babar Tech Solutions — Premium Software & Remote Workforce",
+    card: "summary",
+    site: "@babartechsol",
+    title: "Babar Tech Solutions — Top Rated Upwork Agency",
     description:
-      "Elite freelancing and software solutions agency delivering world-class digital services globally.",
-    images: ["/og-image.png"],
+      "100% Job Success · Top Rated · 5.0★. Expert VAs, customer service, sales support & web dev. Live within 24 hours.",
+    images: ["/logo.jpg"],
   },
   robots: {
     index: true,
@@ -76,6 +87,51 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  verification: {
+    google: "",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Babar Tech Solutions",
+  url: BASE_URL,
+  logo: `${BASE_URL}/logo.jpg`,
+  image: `${BASE_URL}/logo.jpg`,
+  description:
+    "Top Rated Upwork agency providing virtual assistants, customer service teams, sales support, and web development for global businesses.",
+  email: "hello@babartechsolutions.com",
+  foundingDate: "2024",
+  founder: {
+    "@type": "Person",
+    name: "Fahad Ali",
+  },
+  areaServed: "Worldwide",
+  serviceType: [
+    "Virtual Assistant",
+    "Customer Service",
+    "Sales Support",
+    "Web Development",
+    "Lead Generation",
+    "Customer Success",
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    bestRating: "5",
+    worstRating: "1",
+    reviewCount: "14",
+  },
+  sameAs: [
+    "https://www.upwork.com/agencies/babartechsolutions/",
+    "https://www.linkedin.com/company/babartechsolutions/",
+    "https://www.instagram.com/babartechsolutions/",
+    "https://www.facebook.com/profile.php?id=61576992675253",
+  ],
 };
 
 export default function RootLayout({
@@ -89,6 +145,12 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${geistMono.variable} dark`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-screen bg-[#05091A] text-slate-100 antialiased overflow-x-hidden">
         <SmoothScroll>
           <ScrollProgress />
