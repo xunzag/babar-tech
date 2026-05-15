@@ -236,7 +236,6 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
         className="flex gap-6 pt-3"
         style={{ borderTop: "1px solid rgba(255,255,255,0.06)", color: "#6b7280", fontSize: "12px" }}
       >
-        <span style={{ color: "#e5e7eb", fontWeight: 600 }}>{review.amount}</span>
         <span>{review.rate}</span>
         {review.hours && <span>{review.hours}</span>}
       </div>
