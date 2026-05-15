@@ -17,6 +17,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://babartechsolutions.com"),
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
   title: {
     default: "Babar Tech Solutions — Premium Software & Remote Workforce",
     template: "%s | Babar Tech Solutions",
