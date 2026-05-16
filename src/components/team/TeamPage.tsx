@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -126,49 +127,35 @@ function TeamNetworkSVG() {
   );
 }
 
-/* ── Photo box — contained, never stretched ── */
-function PhotoBox({ member, size = 320 }: { member: Member; size?: number }) {
+/* ── Photo box — responsive, never overflows viewport ── */
+function PhotoBox({ member, size = 260 }: { member: Member; size?: number }) {
+  const dim = `min(${size}px, calc(100vw - 3rem))`;
+  const shared: React.CSSProperties = {
+    width: dim,
+    height: dim,
+    background: "var(--bg-elevated)",
+    borderRadius: "12px",
+    border: "1px solid var(--border)",
+    flexShrink: 0,
+    overflow: "hidden",
+  };
   if (member.photo) {
     return (
-      <div
-        className="flex-shrink-0 overflow-hidden"
-        style={{
-          width: size,
-          height: size,
-          background: "var(--bg-elevated)",
-          borderRadius: "12px",
-          border: "1px solid var(--border)",
-        }}
-      >
+      <div style={shared}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={member.photo}
           alt={member.name}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center top",
-            display: "block",
-          }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
         />
       </div>
     );
   }
   return (
-    <div
-      className="flex-shrink-0 flex items-center justify-center"
-      style={{
-        width: size,
-        height: size,
-        background: "var(--bg-elevated)",
-        borderRadius: "12px",
-        border: "1px solid var(--border)",
-      }}
-    >
+    <div className="flex items-center justify-center" style={shared}>
       <span
         className="font-black select-none"
-        style={{ fontSize: size * 0.35, color: "var(--border-strong)", lineHeight: 1 }}
+        style={{ fontSize: `min(${size * 0.35}px, calc((100vw - 3rem) * 0.35))`, color: "var(--border-strong)", lineHeight: 1 }}
       >
         {member.initials}
       </span>
@@ -185,7 +172,7 @@ function FounderRow() {
     >
       {/* Photo — contained box */}
       <div
-        className="flex-shrink-0 flex items-center justify-center p-10 lg:p-12"
+        className="flex-shrink-0 flex items-center justify-center p-6 md:p-10 lg:p-12"
         style={{
           borderRight: "1px solid var(--border)",
           background: "var(--bg-elevated)",
@@ -194,8 +181,8 @@ function FounderRow() {
       >
         <div
           style={{
-            width: 300,
-            height: 360,
+            width: "min(300px, calc(100vw - 3rem))",
+            aspectRatio: "5 / 6",
             overflow: "hidden",
             borderRadius: "14px",
             border: "1px solid var(--border-strong)",
@@ -291,7 +278,7 @@ function MemberRow({ member, index }: { member: Member; index: number }) {
 
       {/* Photo */}
       <div
-        className="flex-shrink-0 flex items-center justify-center p-8 lg:p-10"
+        className="flex-shrink-0 flex items-center justify-center p-6 md:p-8 lg:p-10"
         style={{
           background: "var(--bg-elevated)",
           borderRight: flip ? "none" : "1px solid var(--border)",

@@ -83,10 +83,13 @@ function onMousemove(e) {
       lines.push(new Line({ spring: 0.45 + (e / E.trails) * 0.025 }));
   }
   function c(e) {
-    e.touches
-      ? ((pos.x = e.touches[0].pageX), (pos.y = e.touches[0].pageY))
-      : ((pos.x = e.clientX), (pos.y = e.clientY)),
-      e.preventDefault();
+    if (e.touches) {
+      pos.x = e.touches[0].pageX;
+      pos.y = e.touches[0].pageY;
+    } else {
+      pos.x = e.clientX;
+      pos.y = e.clientY;
+    }
   }
   function l(e) {
     1 == e.touches.length &&
@@ -95,7 +98,7 @@ function onMousemove(e) {
   document.removeEventListener("mousemove", onMousemove),
     document.removeEventListener("touchstart", onMousemove),
     document.addEventListener("mousemove", c),
-    document.addEventListener("touchmove", c, { passive: false }),
+    document.addEventListener("touchmove", c, { passive: true }),
     document.addEventListener("touchstart", l),
     c(e),
     o(),
