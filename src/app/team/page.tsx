@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Meet the Team — Babar Tech Solutions",
     description: "Six pre-vetted specialists. VA, customer service, sales & web dev. All 5.0★ rated on Upwork.",
     url: "https://babartechsolutions.com/team",
-    images: [{ url: "/logo.jpg", width: 800, height: 800, alt: "Babar Tech Solutions Team" }],
+    images: [{ url: "/logo-final.jpg", width: 800, height: 800, alt: "Babar Tech Solutions Team" }],
   },
 };
 

@@ -10,7 +10,7 @@ export const metadata = {
     title: "Contact Babar Tech Solutions",
     description: "Tell us what you need. We'll match you with a specialist same day and have them working within 24 hours.",
     url: "https://babartechsolutions.com/contact",
-    images: [{ url: "/logo.jpg", width: 800, height: 800, alt: "Contact Babar Tech Solutions" }],
+    images: [{ url: "/logo-final.jpg", width: 800, height: 800, alt: "Contact Babar Tech Solutions" }],
   },
 };
 

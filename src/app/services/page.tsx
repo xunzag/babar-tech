@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Services — Babar Tech Solutions",
     description: "VA, customer service, sales support & web development. Top Rated Upwork agency ready to start within 24 hours.",
     url: "https://babartechsolutions.com/services",
-    images: [{ url: "/logo.jpg", width: 800, height: 800, alt: "Babar Tech Solutions Services" }],
+    images: [{ url: "/logo-final.jpg", width: 800, height: 800, alt: "Babar Tech Solutions Services" }],
   },
 };
 

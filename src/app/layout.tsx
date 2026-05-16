@@ -27,7 +27,9 @@ const BASE_URL = "https://babartechsolutions.com";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   icons: {
-    icon: "/logo-final.jpg",
+    icon: [
+      { url: "/logo-final.jpg", type: "image/jpeg" },
+    ],
     apple: "/logo-final.jpg",
     shortcut: "/logo-final.jpg",
   },
@@ -66,13 +68,20 @@ export const metadata: Metadata = {
     title: "Babar Tech Solutions — Top Rated Upwork Agency",
     description:
       "100% Job Success Score · Top Rated · 5.0★. Expert virtual assistants, customer service, sales support & web development. Onboarded and working within 24 hours.",
-    images: [{ url: "/logo.jpg", width: 800, height: 800, alt: "Babar Tech Solutions" }],
+    images: [
+      {
+        url: "/logo-final.jpg",
+        width: 800,
+        height: 800,
+        alt: "Babar Tech Solutions — Top Rated Upwork Agency",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Babar Tech Solutions — Top Rated Upwork Agency",
     description: "100% JSS · Top Rated · 5.0★. Expert VAs, customer service, sales support & web dev. Live within 24 hours.",
-    images: ["/logo.jpg"],
+    images: ["/logo-final.jpg"],
   },
   robots: {
     index: true,
@@ -88,8 +97,8 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "Babar Tech Solutions",
   url: BASE_URL,
-  logo: `${BASE_URL}/logo.jpg`,
-  image: `${BASE_URL}/logo.jpg`,
+  logo: `${BASE_URL}/logo-final.jpg`,
+  image: `${BASE_URL}/logo-final.jpg`,
   description: "Top Rated Upwork agency providing virtual assistants, customer service teams, sales support, and web development for global businesses.",
   email: "hello@babartechsolutions.com",
   foundingDate: "2024",
