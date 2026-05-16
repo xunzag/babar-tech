@@ -2,364 +2,257 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Star, CheckCircle2, Zap, Clock, Headphones, UserCheck, TrendingUp, CalendarDays } from "lucide-react";
-
-const ROTATING_WORDS = [
-  "Web Development",
-  "UI/UX Design",
-  "Automation",
-  "Customer Support",
-  "Virtual Assistance",
-];
-
-const TERMINAL_LINES = [
-  { text: "$ deploying babar-tech-project...", color: "#64748B", delay: "0.4s" },
-  { text: "▶  Compiling TypeScript…", color: "#FCD34D", delay: "1.1s" },
-  { text: "✓  Build complete in 1.3s", color: "#34D399", delay: "1.9s" },
-  { text: "✓  142 unit tests passed", color: "#34D399", delay: "2.5s" },
-  { text: "✓  0 security vulnerabilities", color: "#34D399", delay: "3.1s" },
-  { text: "✓  Live in production  🚀", color: "#FF6B35", delay: "3.7s" },
-];
+import { ArrowRight, CalendarDays } from "lucide-react";
+import SilkCanvas from "@/components/common/SilkCanvas";
 
 const STATS = [
-  { value: "100%", label: "Job Success" },
-  { value: "5.0★", label: "Upwork Rating" },
-  { value: "6", label: "Specialists" },
-  { value: "Top Rated", label: "Upwork Badge" },
+  { value: "100%",      label: "Job Success Score" },
+  { value: "Top Rated", label: "Upwork Badge"       },
+  { value: "5.0★",      label: "All Reviews"        },
+  { value: "< 2h",      label: "Response Time"      },
 ];
 
-const SERVICE_CARDS = [
-  {
-    icon: Headphones,
-    title: "Customer Service",
-    desc: "24/7 support & retention",
-    color: "#F06529",
-  },
-  {
-    icon: UserCheck,
-    title: "Virtual Assistant",
-    desc: "Inbox, calendar & ops",
-    color: "#10B981",
-  },
-  {
-    icon: TrendingUp,
-    title: "Sales Support",
-    desc: "Lead gen & closing",
-    color: "#1666CC",
-  },
-];
 
-/* ─── Blur-morph rotating word ─── */
-function MorphWord({ words }: { words: string[] }) {
+const CYCLING_WORDS = ["tomorrow.", "in 24h.", "today.", "fast."];
+
+function WordCycler() {
   const [index, setIndex] = useState(0);
-  const [phase, setPhase] = useState<"in" | "out">("in");
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const id = setInterval(() => {
-      setPhase("out");
-      const t = setTimeout(() => {
-        setIndex((i) => (i + 1) % words.length);
-        setPhase("in");
-      }, 450);
-      return () => clearTimeout(t);
-    }, 3000);
+      setVisible(false);
+      setTimeout(() => {
+        setIndex(i => (i + 1) % CYCLING_WORDS.length);
+        setVisible(true);
+      }, 380);
+    }, 2600);
     return () => clearInterval(id);
-  }, [words.length]);
+  }, []);
 
   return (
     <span
-      className="text-gradient inline-block"
       style={{
-        transition: "filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease",
-        filter: phase === "out" ? "blur(14px)" : "blur(0px)",
-        opacity: phase === "out" ? 0 : 1,
-        transform: phase === "out" ? "scale(1.06) translateY(-4px)" : "scale(1) translateY(0)",
-        willChange: "filter, opacity, transform",
+        color: "var(--accent)",
+        display: "inline-block",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0px)" : "translateY(-12px)",
+        transition: "opacity 0.38s cubic-bezier(0.4,0,0.2,1), transform 0.38s cubic-bezier(0.4,0,0.2,1)",
+        minWidth: "6ch",
       }}
     >
-      {words[index]}
+      {CYCLING_WORDS[index]}
     </span>
   );
 }
 
-/* ─── Compact terminal card ─── */
-function TerminalCard() {
+/* Subtle logo-colour geometric decoration — SVG dots + arcs */
+function HeroDecoration() {
   return (
-    <div
-      className="relative rounded-2xl overflow-hidden w-full"
-      style={{
-        background: "rgba(8,14,30,0.95)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255,107,53,0.04), inset 0 1px 0 rgba(255,255,255,0.05)",
-      }}
+    <svg
+      className="absolute pointer-events-none select-none"
+      style={{ right: "calc(420px + 40px)", top: "15%", width: 220, height: 220, opacity: 0.07, zIndex: 2 }}
+      viewBox="0 0 220 220"
+      fill="none"
+      aria-hidden
     >
-      {/* Title bar */}
-      <div
-        className="flex items-center gap-1.5 px-4 py-3"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)" }}
-      >
-        <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-        <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-        <span className="ml-3 text-slate-500 text-xs font-mono">deploy.sh</span>
-        <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 font-medium">
-          ● Live
-        </span>
-      </div>
-
-      {/* Terminal output */}
-      <div className="p-4 space-y-1.5 font-mono text-xs">
-        {TERMINAL_LINES.map((line, i) => (
-          <div
-            key={i}
-            className="terminal-line flex items-start gap-2"
-            style={{ animationDelay: line.delay, color: line.color }}
-          >
-            {line.text}
-          </div>
-        ))}
-      </div>
-    </div>
+      <circle cx="110" cy="110" r="90" stroke="#1464CC" strokeWidth="1.5" strokeDasharray="6 10" />
+      <circle cx="110" cy="110" r="58" stroke="#F06529" strokeWidth="1" strokeDasharray="4 8" />
+      <circle cx="110" cy="22" r="5" fill="#1464CC" />
+      <circle cx="198" cy="110" r="5" fill="#F06529" />
+      <circle cx="110" cy="198" r="5" fill="#1464CC" />
+      <circle cx="22" cy="110" r="5" fill="#F06529" />
+      <line x1="110" y1="22" x2="198" y2="110" stroke="#1464CC" strokeWidth="0.8" />
+      <line x1="198" y1="110" x2="110" y2="198" stroke="#F06529" strokeWidth="0.8" />
+      <line x1="110" y1="198" x2="22" y2="110" stroke="#1464CC" strokeWidth="0.8" />
+      <line x1="22" y1="110" x2="110" y2="22" stroke="#F06529" strokeWidth="0.8" />
+    </svg>
   );
 }
 
-/* ─── Service mini card ─── */
-function ServiceMiniCard({ icon: Icon, title, desc, color }: (typeof SERVICE_CARDS)[number]) {
-  return (
-    <div
-      className="rounded-xl p-3 flex flex-col gap-2"
-      style={{
-        background: "rgba(8,14,30,0.9)",
-        border: "1px solid rgba(255,255,255,0.07)",
-      }}
-    >
-      <div
-        className="w-8 h-8 rounded-lg flex items-center justify-center"
-        style={{ background: `${color}15`, border: `1px solid ${color}28` }}
-      >
-        <Icon className="w-4 h-4" style={{ color }} />
-      </div>
-      <div>
-        <div className="text-white text-xs font-semibold leading-tight">{title}</div>
-        <div className="text-slate-500 text-xs mt-0.5 leading-snug">{desc}</div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Main Hero ─── */
 export default function Hero() {
-  const stagger = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.12, delayChildren: 0.3 } },
-  };
-  const item = {
-    hidden: { opacity: 0, y: 32 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] } },
-  };
-
   return (
     <section
       className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "#05091A" }}
+      style={{ background: "var(--bg)" }}
     >
-      {/* ── Pure CSS background – zero JS overhead ── */}
-      <div className="hero-blob-1" />
-      <div className="hero-blob-2" />
-      <div className="hero-blob-3" />
-      <div className="absolute inset-0 grid-bg pointer-events-none" />
+      {/* Silk string canvas — follows mouse in dark mode */}
+      <SilkCanvas />
 
-      {/* Vertical accent line from top */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 pointer-events-none"
-        style={{ background: "linear-gradient(180deg, rgba(255,107,53,0.5), transparent)" }}
-      />
+      {/* Top accent line */}
+      <div className="absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.4 }} />
 
-      {/* ── Content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-28 pb-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+      {/* Radial glow — blue tint from logo */}
+      <div className="absolute inset-x-0 top-0 h-[600px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 55% 45% at 28% 0%, rgba(20,100,204,0.06) 0%, transparent 100%)" }} />
 
-          {/* LEFT COLUMN */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="show"
-            className="flex flex-col"
-          >
-            {/* Trust badge */}
-            <motion.div variants={item} className="mb-8 w-fit">
-              <div
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
-                style={{
-                  background: "rgba(255,107,53,0.08)",
-                  border: "1px solid rgba(255,107,53,0.2)",
-                  color: "#FF8C42",
-                }}
-              >
-                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                Trusted on Upwork · Top Rated Agency
-                <span className="flex gap-0.5 ml-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
-                  ))}
+      {/* Geometric decoration (desktop only) */}
+      <HeroDecoration />
+
+      {/* Full-width two-column grid */}
+      <div className="relative z-10 w-full grid lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] min-h-screen">
+
+        {/* ── LEFT: Editorial headline ── */}
+        <div className="flex flex-col justify-center px-8 md:px-14 xl:px-20 pt-28 pb-16"
+          style={{ borderRight: "1px solid var(--border)" }}>
+
+          <div className="section-label mb-10">
+            Top Rated Upwork Agency · Est. 2024
+          </div>
+
+          <h1 className="mb-7" style={{ lineHeight: 1.04, letterSpacing: "-0.035em" }}>
+            <span className="reveal-line block font-bold"
+              style={{ fontSize: "clamp(3rem, 6vw, 5.75rem)", color: "var(--text)" }}>
+              Remote specialists,
+            </span>
+            <span className="reveal-line block font-bold"
+              style={{ fontSize: "clamp(3rem, 6vw, 5.75rem)", color: "var(--text)" }}>
+              ready to work
+            </span>
+            <span className="reveal-line block font-bold"
+              style={{ fontSize: "clamp(3rem, 6vw, 5.75rem)" }}>
+              <WordCycler />
+            </span>
+          </h1>
+
+          <p className="reveal-line mb-10 max-w-lg"
+            style={{ fontSize: "1.1rem", color: "var(--text-muted)", lineHeight: 1.7, animationDelay: "0.46s" }}>
+            Customer service, virtual assistance, sales support and web
+            development — fully vetted, no contracts, onboarded within 24&nbsp;hours.
+          </p>
+
+          <div className="reveal-line flex flex-wrap gap-3 mb-16" style={{ animationDelay: "0.58s" }}>
+            <Link href="/contact" className="btn-accent flex items-center gap-2 text-sm">
+              Start a Project <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a href="https://calendly.com/babartechsolutions" target="_blank" rel="noopener noreferrer"
+              className="btn-ghost flex items-center gap-2 text-sm">
+              <CalendarDays className="w-4 h-4" /> Book a Call
+            </a>
+          </div>
+
+          {/* Stats row */}
+          <div className="reveal-line flex flex-wrap gap-x-10 gap-y-5 pt-8"
+            style={{ borderTop: "1px solid var(--border)", animationDelay: "0.7s" }}>
+            {STATS.map((s) => (
+              <div key={s.label}>
+                <div className="font-bold text-2xl" style={{ color: "var(--text)", letterSpacing: "-0.02em" }}>
+                  {s.value}
+                </div>
+                <div className="text-xs mt-1" style={{ color: "var(--text-subtle)" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── RIGHT: Social proof trust panel ── */}
+        <div
+          className="hidden lg:flex flex-col justify-between px-10 xl:px-12 pt-28 pb-14 gap-6"
+          style={{ background: "var(--bg-surface)" }}
+        >
+
+          {/* ── Upwork card ── */}
+          <div>
+            <div className="section-label mb-6">Verified & Trusted</div>
+
+            <div
+              className="p-5 rounded-2xl mb-4"
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
+            >
+              <div className="flex items-center gap-3 mb-4 pb-4" style={{ borderBottom: "1px solid var(--border)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/upwork%20logo.png" alt="Upwork" width={36} height={36} style={{ borderRadius: "50%" }} />
+                <div className="flex-1">
+                  <div className="text-sm font-bold" style={{ color: "var(--text)" }}>Upwork · Top Rated Agency</div>
+                  <div className="text-xs mt-0.5" style={{ color: "var(--text-subtle)" }}>Identity & credentials verified</div>
+                </div>
+                <span
+                  className="text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0"
+                  style={{ background: "rgba(16,185,129,0.12)", color: "#0d9e6e", border: "1px solid rgba(16,185,129,0.2)" }}
+                >
+                  ✓ Verified
                 </span>
               </div>
-            </motion.div>
+              <div className="flex gap-8">
+                {[
+                  { value: "100%",  label: "Job Success" },
+                  { value: "5.0 ★", label: "All Reviews"  },
+                  { value: "14+",   label: "Reviews"       },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <div className="font-bold text-xl" style={{ color: "var(--text)", letterSpacing: "-0.02em" }}>{s.value}</div>
+                    <div className="text-xs mt-0.5" style={{ color: "var(--text-subtle)" }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {/* Headline */}
-            <motion.div variants={item}>
-              <h1 className="text-[2.8rem] sm:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] font-bold text-white leading-[1.08] tracking-tight mb-5">
-                Powering Modern
-                <br />
-                Business Through
-                <br />
-                <MorphWord words={ROTATING_WORDS} />
-              </h1>
-            </motion.div>
-
-            {/* Sub-headline */}
-            <motion.p
-              variants={item}
-              className="text-slate-400 text-lg leading-relaxed mb-10 max-w-lg"
+            {/* Google business row */}
+            <div
+              className="flex items-center gap-3 p-4 rounded-xl"
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
             >
-              Elite freelance professionals and software solutions under one roof.
-              From code to customer care — we deliver results globally, reliably,
-              and always on time.
-            </motion.p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/Google_G_logo.svg.png" alt="Google" width={34} height={34} style={{ borderRadius: "6px" }} />
+              <div>
+                <div className="text-sm font-semibold" style={{ color: "var(--text)" }}>Google Business</div>
+                <div className="flex items-center gap-1 mt-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="#FBBC05">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  ))}
+                  <span className="text-xs ml-1" style={{ color: "var(--text-subtle)" }}>5.0 verified</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            {/* CTAs */}
-            <motion.div variants={item} className="flex flex-wrap gap-3 mb-12">
-              <Link
-                href="/#contact"
-                className="group relative flex items-center gap-2 px-7 py-4 rounded-xl text-base font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{
-                  background: "linear-gradient(135deg, #FF6B35, #f97316)",
-                  boxShadow: "0 0 32px rgba(255,107,53,0.4), 0 4px 20px rgba(255,107,53,0.2)",
-                }}
-              >
-                <Zap className="w-4 h-4 relative z-10" />
-                <span className="relative z-10">Start a Project</span>
-                <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-                <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-600 skew-x-[-20deg]" />
-              </Link>
-
-              <a
-                href="https://calendly.com/babartechsolutions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-7 py-4 rounded-xl text-base font-semibold transition-all duration-300 hover:text-white hover:scale-105 active:scale-95"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "#94A3B8",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,107,53,0.3)")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)")}
-              >
-                <CalendarDays className="w-4 h-4" />
-                Book a Call
-              </a>
-            </motion.div>
-
-            {/* Stats strip */}
-            <motion.div
-              variants={item}
-              className="grid grid-cols-4 gap-3"
-            >
-              {STATS.map((s, i) => (
+          {/* ── What we handle ── */}
+          <div>
+            <div className="label-tag mb-3">What we handle</div>
+            <div className="flex flex-col">
+              {[
+                "Customer Service & Support",
+                "Virtual Assistance",
+                "Sales Support & Lead Generation",
+                "Web & Software Development",
+                "Customer Success & Retention",
+                "Operations & Project Management",
+              ].map((s, i) => (
                 <div
                   key={i}
-                  className="flex flex-col items-center text-center py-3 rounded-xl"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                  }}
+                  className="flex items-center gap-3 py-2.5 hover-row rounded-lg px-2 -mx-2"
+                  style={{ borderBottom: "1px solid var(--border)" }}
                 >
-                  <div className="text-xl font-bold text-white">{s.value}</div>
-                  <div className="text-slate-600 text-xs mt-0.5">{s.label}</div>
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />
+                  <span className="text-sm font-medium" style={{ color: "var(--text-muted)" }}>{s}</span>
                 </div>
               ))}
-            </motion.div>
-          </motion.div>
-
-          {/* RIGHT COLUMN — terminal + service cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 40, scale: 0.97 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
-            className="hidden lg:flex flex-col gap-4 max-w-md ml-auto"
-          >
-            {/* Floating badges above the terminal */}
-            <div className="flex items-center gap-2 justify-end flex-wrap">
-              <div
-                className="float-badge-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap"
-                style={{
-                  background: "rgba(255,107,53,0.15)",
-                  border: "1px solid rgba(255,107,53,0.35)",
-                  color: "#FF8C42",
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <Star className="w-3 h-3 fill-current text-yellow-400" />
-                Top Rated · 5.0★
-              </div>
-              <div
-                className="float-badge-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap"
-                style={{
-                  background: "rgba(16,185,129,0.12)",
-                  border: "1px solid rgba(16,185,129,0.3)",
-                  color: "#34D399",
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <CheckCircle2 className="w-3 h-3" />
-                100% Job Success
-              </div>
-              <div
-                className="float-badge-1 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap"
-                style={{
-                  background: "rgba(59,130,246,0.12)",
-                  border: "1px solid rgba(59,130,246,0.3)",
-                  color: "#60A5FA",
-                  backdropFilter: "blur(12px)",
-                  animationDelay: "1.5s",
-                }}
-              >
-                <Clock className="w-3 h-3" />
-                &lt; 2h Response
-              </div>
             </div>
+          </div>
 
-            {/* Terminal card */}
-            <TerminalCard />
-
-            {/* Service mini cards */}
-            <div className="grid grid-cols-3 gap-3">
-              {SERVICE_CARDS.map((card) => (
-                <ServiceMiniCard key={card.title} {...card} />
-              ))}
+          {/* ── Footer strip ── */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+              <span className="text-xs" style={{ color: "var(--text-subtle)" }}>Available now · Onboard within 24h</span>
             </div>
-          </motion.div>
+            <a
+              href="https://www.upwork.com/agencies/babartechsolutions/"
+              target="_blank" rel="noopener noreferrer"
+              className="text-xs transition-colors duration-150"
+              style={{ color: "var(--text-subtle)" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-subtle)")}>
+              View our Upwork profile →
+            </a>
+          </div>
 
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-      >
-        <span className="text-xs text-slate-700 tracking-widest uppercase">Scroll</span>
-        <motion.div
-          className="w-px h-10"
-          style={{ background: "linear-gradient(180deg, rgba(255,107,53,0.5), transparent)" }}
-          animate={{ scaleY: [1, 0, 1], opacity: [1, 0.3, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      </motion.div>
+      </div>
     </section>
   );
 }

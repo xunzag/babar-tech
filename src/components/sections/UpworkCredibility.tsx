@@ -167,23 +167,23 @@ function StarIcon() {
   );
 }
 
-/* ── Exact Upwork dark-theme review card ── */
+/* ── Upwork review card ── */
 function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
   return (
     <div
       className="flex-shrink-0 flex flex-col"
       style={{
         width: "420px",
-        background: "#111213",
-        border: "1px solid rgba(255,255,255,0.07)",
+        background: "var(--bg-surface)",
+        border: "1px solid var(--border)",
         borderRadius: "8px",
         padding: "20px 24px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
       }}
     >
       {/* Title row + Upwork logo */}
       <div className="flex items-start justify-between gap-3 mb-2">
-        <div style={{ color: "#ffffff", fontWeight: 700, fontSize: "14px", lineHeight: 1.45 }}>
+        <div style={{ color: "var(--text)", fontWeight: 700, fontSize: "14px", lineHeight: 1.45 }}>
           {review.title}
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -206,7 +206,7 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
       </div>
 
       {/* Review text */}
-      <p style={{ color: "#d1d5db", fontStyle: "italic", fontSize: "13px", lineHeight: 1.65, marginBottom: "14px", flex: 1 }}>
+      <p style={{ color: "var(--text-muted)", fontStyle: "italic", fontSize: "13px", lineHeight: 1.65, marginBottom: "14px", flex: 1 }}>
         &ldquo;{review.text}&rdquo;
       </p>
 
@@ -217,9 +217,9 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
             <span
               key={tag}
               style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#9ca3af",
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border)",
+                color: "var(--text-subtle)",
                 fontSize: "11px",
                 padding: "3px 10px",
                 borderRadius: "20px",
@@ -234,7 +234,7 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
       {/* Contract stats */}
       <div
         className="flex gap-6 pt-3"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.06)", color: "#6b7280", fontSize: "12px" }}
+        style={{ borderTop: "1px solid var(--border)", color: "var(--text-subtle)", fontSize: "12px" }}
       >
         <span>{review.rate}</span>
         {review.hours && <span>{review.hours}</span>}
@@ -248,12 +248,9 @@ export default function UpworkCredibility() {
   const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
 
   return (
-    <section className="relative py-28 overflow-hidden" style={{ background: "#05091A" }}>
-      <div className="absolute inset-0 grid-bg-sm opacity-30" />
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent)" }}
-      />
+    <section className="relative py-28 overflow-hidden" style={{ background: "var(--bg)" }}>
+      <div className="absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--border-strong), transparent)" }} />
 
       <div className="relative z-10">
 
@@ -278,10 +275,11 @@ export default function UpworkCredibility() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={headerInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-4xl md:text-5xl font-bold text-white leading-tight"
+                className="font-bold leading-tight"
+                style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", letterSpacing: "-0.03em", color: "var(--text)" }}
               >
                 Real Clients.{" "}
-                <span className="text-gradient">Real Reviews.</span>
+                <span style={{ color: "var(--accent)" }}>Real Reviews.</span>
               </motion.h2>
 
               <motion.div
@@ -343,19 +341,22 @@ export default function UpworkCredibility() {
           </div>
 
           <div className="absolute top-0 left-0 bottom-0 w-20 pointer-events-none z-10"
-            style={{ background: "linear-gradient(90deg, #05091A, transparent)" }} />
+            style={{ background: "linear-gradient(90deg, var(--bg), transparent)" }} />
           <div className="absolute top-0 right-0 bottom-0 w-20 pointer-events-none z-10"
-            style={{ background: "linear-gradient(-90deg, #05091A, transparent)" }} />
+            style={{ background: "linear-gradient(-90deg, var(--bg), transparent)" }} />
         </motion.div>
 
         <div className="max-w-7xl mx-auto px-6 mt-10 flex items-center justify-center gap-3">
           <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-          <p className="text-slate-600 text-sm">Every review shown is directly from Upwork — unedited.</p>
+          <p className="text-sm" style={{ color: "var(--text-subtle)" }}>Every review shown is directly from Upwork — unedited.</p>
           <a
             href="https://www.upwork.com/agencies/babartechsolutions/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-500 hover:text-green-400 text-sm transition-colors underline underline-offset-2"
+            className="text-sm transition-colors underline underline-offset-2"
+            style={{ color: "var(--text-subtle)" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#34D399")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--text-subtle)")}
           >
             View profile →
           </a>

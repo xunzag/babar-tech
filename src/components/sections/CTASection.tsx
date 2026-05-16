@@ -1,162 +1,131 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-import { ArrowRight, Mail, MessageSquare, CalendarDays } from "lucide-react";
+import { ArrowRight, CalendarDays, MessageSquare } from "lucide-react";
 
 export default function CTASection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
     <section
       id="contact"
-      ref={ref}
-      className="relative py-28 overflow-hidden"
-      style={{ background: "#05091A" }}
+      className="relative w-full overflow-hidden"
+      style={{ background: "var(--bg)" }}
     >
-      {/* Background animated gradient */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 grid-bg opacity-30" />
-        <motion.div
-          className="absolute inset-0"
-          animate={{
-            background: [
-              "radial-gradient(ellipse 800px 500px at 50% 50%, rgba(255,107,53,0.08) 0%, transparent 70%)",
-              "radial-gradient(ellipse 800px 500px at 50% 50%, rgba(59,130,246,0.07) 0%, transparent 70%)",
-              "radial-gradient(ellipse 800px 500px at 50% 50%, rgba(139,92,246,0.07) 0%, transparent 70%)",
-              "radial-gradient(ellipse 800px 500px at 50% 50%, rgba(255,107,53,0.08) 0%, transparent 70%)",
-            ],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
+      {/* Top accent */}
+      <div className="absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.35 }} />
 
-      {/* Top separator */}
+      {/* Subtle radial glow */}
       <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,107,53,0.4), transparent)" }}
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(240,101,41,0.05) 0%, transparent 100%)" }}
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      <div className="relative z-10 w-full grid lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_480px] min-h-[420px]">
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8"
-          style={{
-            background: "rgba(255,107,53,0.1)",
-            border: "1px solid rgba(255,107,53,0.25)",
-            color: "#FF8C42",
-          }}
+        {/* ── LEFT: Headline ── */}
+        <div
+          className="flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20"
+          style={{ borderRight: "1px solid var(--border)" }}
         >
-          <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-          Ready to build something premium?
-        </motion.div>
+          <div className="section-label mb-8">Ready to Start</div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-8"
-        >
-          Let's Turn Your{" "}
-          <span className="text-gradient">Vision Into Reality</span>
-        </motion.h2>
+          <h2
+            className="font-bold mb-5"
+            style={{
+              fontSize: "clamp(2.25rem, 4.5vw, 4rem)",
+              lineHeight: 1.06,
+              letterSpacing: "-0.035em",
+              color: "var(--text)",
+            }}
+          >
+            Let&apos;s build something
+            <br />
+            <span style={{ color: "var(--accent)" }}>that ships.</span>
+          </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 25 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-slate-400 text-xl leading-relaxed mb-12 max-w-2xl mx-auto"
-        >
-          From a single project to a full remote workforce — Babar Tech Solutions delivers
-          with precision and care. Start the conversation today.
-        </motion.p>
+          <p
+            className="max-w-md"
+            style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: 1.7 }}
+          >
+            From a single project to a full remote workforce — Babar Tech Solutions delivers
+            with precision and care. Start the conversation today.
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-4 mb-16"
+          {/* Trust strip */}
+          <div className="flex flex-wrap gap-x-8 gap-y-2 mt-8">
+            {["No long-term commitment", "Fast onboarding", "100% satisfaction"].map((item) => (
+              <div key={item} className="flex items-center gap-2">
+                <div className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />
+                <span style={{ fontSize: "0.8rem", color: "var(--text-subtle)" }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── RIGHT: CTA buttons ── */}
+        <div
+          className="hidden lg:flex flex-col justify-center gap-4 px-10 xl:px-12 py-20"
+          style={{ background: "var(--bg-surface)" }}
         >
           <a
             href="mailto:hello@babartechsolutions.com"
-            className="group relative flex items-center gap-2 px-8 py-4.5 rounded-xl text-base font-semibold text-white overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: "linear-gradient(135deg, #FF6B35, #f97316)",
-              boxShadow: "0 0 40px rgba(255,107,53,0.4), 0 4px 24px rgba(255,107,53,0.25)",
-            }}
+            className="btn-accent flex items-center justify-between gap-3 text-sm group"
           >
-            <Mail className="w-4 h-4 relative z-10" />
-            <span className="relative z-10">Get a Free Quote</span>
-            <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-            <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-[-20deg]" />
+            <span>Get a Free Quote</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </a>
 
           <a
             href="https://calendly.com/babartechsolutions"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-8 py-4.5 rounded-xl text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#94A3B8",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(22,102,204,0.4)";
-              e.currentTarget.style.color = "#60A5FA";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-              e.currentTarget.style.color = "#94A3B8";
-            }}
+            className="btn-ghost flex items-center justify-between gap-3 text-sm"
           >
-            <CalendarDays className="w-4 h-4" />
-            Book a Call
+            <span className="flex items-center gap-2">
+              <CalendarDays className="w-4 h-4" /> Book a Call
+            </span>
+            <ArrowRight className="w-4 h-4 opacity-40" />
           </a>
 
           <a
             href="https://www.upwork.com/agencies/babartechsolutions/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-8 py-4.5 rounded-xl text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              color: "#94A3B8",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(16,185,129,0.4)";
-              e.currentTarget.style.color = "#34D399";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-              e.currentTarget.style.color = "#94A3B8";
-            }}
+            className="btn-ghost flex items-center justify-between gap-3 text-sm"
           >
-            <MessageSquare className="w-4 h-4" />
-            Hire on Upwork
+            <span className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" /> Hire on Upwork
+            </span>
+            <ArrowRight className="w-4 h-4 opacity-40" />
           </a>
-        </motion.div>
 
-        {/* Trust bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600"
-        >
-          {["No long-term commitment", "Fast onboarding", "24/7 communication", "100% satisfaction"].map((item) => (
-            <div key={item} className="flex items-center gap-1.5">
-              <div className="w-1 h-1 rounded-full bg-orange-500/50" />
-              {item}
+          <div className="mt-2 pt-6" style={{ borderTop: "1px solid var(--border)" }}>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
+              <span style={{ fontSize: "0.8rem", color: "var(--text-subtle)" }}>
+                Available now · Onboarded within 24 hours
+              </span>
             </div>
-          ))}
-        </motion.div>
+          </div>
+        </div>
+
+        {/* Mobile CTA (shown only when sidebar is hidden) */}
+        <div className="lg:hidden flex flex-col gap-3 px-8 md:px-14 pb-16">
+          <a
+            href="mailto:hello@babartechsolutions.com"
+            className="btn-accent flex items-center justify-center gap-2 text-sm"
+          >
+            Get a Free Quote <ArrowRight className="w-4 h-4" />
+          </a>
+          <a
+            href="https://calendly.com/babartechsolutions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost flex items-center justify-center gap-2 text-sm"
+          >
+            <CalendarDays className="w-4 h-4" /> Book a Call
+          </a>
+        </div>
 
       </div>
     </section>

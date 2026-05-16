@@ -223,7 +223,7 @@ function ServiceSection({ svc, index }: { svc: (typeof SERVICES_DETAIL)[number];
       id={svc.id}
       ref={ref}
       className="py-16"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+      style={{ borderBottom: "1px solid var(--border)" }}
     >
       <div className={`grid lg:grid-cols-2 gap-12 items-start ${!isEven ? "lg:grid-flow-dense" : ""}`}>
 
@@ -246,9 +246,9 @@ function ServiceSection({ svc, index }: { svc: (typeof SERVICES_DETAIL)[number];
             {svc.title}
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">{svc.title}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ color: "var(--text)" }}>{svc.title}</h2>
           <p className="text-lg mb-4" style={{ color: svc.color }}>{svc.subtitle}</p>
-          <p className="text-slate-400 leading-relaxed mb-6">{svc.desc}</p>
+          <p className="leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>{svc.desc}</p>
 
           <Link
             href="/#contact"
@@ -279,18 +279,18 @@ function ServiceSection({ svc, index }: { svc: (typeof SERVICES_DETAIL)[number];
           transition={{ duration: 0.7, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
           className={`p-6 rounded-2xl ${isEven ? "" : "lg:col-start-1 lg:row-start-1"}`}
           style={{
-            background: "rgba(13,22,40,0.9)",
+            background: "var(--bg-surface)",
             border: `1px solid ${svc.color}20`,
           }}
         >
           {/* Features list */}
           <div className="mb-5">
-            <div className="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider">What's Included</div>
+            <div className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: "var(--text-subtle)" }}>What&apos;s Included</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {svc.features.slice(0, expanded ? undefined : 6).map((feat) => (
                 <div key={feat} className="flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: svc.color }} />
-                  <span className="text-slate-300 text-sm">{feat}</span>
+                  <span className="text-sm" style={{ color: "var(--text-muted)" }}>{feat}</span>
                 </div>
               ))}
             </div>
@@ -311,7 +311,7 @@ function ServiceSection({ svc, index }: { svc: (typeof SERVICES_DETAIL)[number];
 
           {/* Process */}
           <div>
-            <div className="text-sm font-semibold text-slate-400 mb-3 uppercase tracking-wider">Our Process</div>
+            <div className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: "var(--text-subtle)" }}>Our Process</div>
             <div className="flex gap-2">
               {svc.process.map((step, i) => (
                 <div
@@ -325,8 +325,8 @@ function ServiceSection({ svc, index }: { svc: (typeof SERVICES_DETAIL)[number];
                   >
                     {i + 1}
                   </div>
-                  <div className="text-white text-xs font-semibold mb-0.5">{step.step}</div>
-                  <div className="text-slate-600 text-xs leading-tight hidden sm:block">{step.desc}</div>
+                  <div className="text-xs font-semibold mb-0.5" style={{ color: "var(--text)" }}>{step.step}</div>
+                  <div className="text-xs leading-tight hidden sm:block" style={{ color: "var(--text-subtle)" }}>{step.desc}</div>
                 </div>
               ))}
             </div>
@@ -343,87 +343,102 @@ export default function ServicesPage() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <div className="min-h-screen" style={{ background: "#05091A" }}>
+    <div className="min-h-screen" style={{ background: "var(--bg)", paddingTop: "63px" }}>
 
-      {/* Hero */}
-      <section className="relative pt-36 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-40" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "radial-gradient(ellipse 800px 400px at 50% 70%, rgba(59,130,246,0.06) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24"
-          style={{ background: "linear-gradient(180deg, rgba(59,130,246,0.6), transparent)" }}
-        />
+      {/* ── Hero ── */}
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ borderBottom: "1px solid var(--border)" }}
+      >
+        <div className="absolute inset-x-0 top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, var(--border-strong), transparent)" }} />
 
-        <div ref={headerRef} className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-            style={{
-              background: "rgba(59,130,246,0.08)",
-              border: "1px solid rgba(59,130,246,0.2)",
-              color: "#60A5FA",
-            }}
+        <div className="w-full grid lg:grid-cols-[1fr_360px]">
+
+          {/* LEFT: Editorial headline */}
+          <div
+            ref={headerRef}
+            className="flex flex-col justify-center px-8 md:px-14 xl:px-20 pt-16 pb-14"
+            style={{ borderRight: "1px solid var(--border)" }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            Full Service Suite
-          </motion.div>
+            <div className="section-label mb-10">Solutions · Eight Service Verticals</div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
-          >
-            Premium Solutions,{" "}
-            <span className="text-gradient-cool">Every Vertical</span>
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={headerInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.75 }}
+              className="font-bold mb-7"
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.035em",
+                color: "var(--text)",
+              }}
+            >
+              Eight disciplines.
+              <br />
+              <span style={{ color: "var(--accent)" }}>All under one roof.</span>
+            </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.7 }}
-            className="text-slate-400 text-xl max-w-2xl mx-auto mb-8"
-          >
-            Eight specialized service verticals, each backed by deep expertise and an
-            uncompromising commitment to quality.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={headerInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.15, duration: 0.65 }}
+              className="mb-10 max-w-md"
+              style={{ fontSize: "1.05rem", color: "var(--text-muted)", lineHeight: 1.75 }}
+            >
+              Customer service, virtual assistance, sales support, web development and four
+              more specialist verticals — each backed by verified Upwork talent under one
+              accountable roof.
+            </motion.p>
 
-          {/* Quick nav */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3 }}
-            className="flex flex-wrap justify-center gap-2"
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={headerInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.28, duration: 0.6 }}
+              className="flex flex-wrap gap-x-10 gap-y-5 pt-8"
+              style={{ borderTop: "1px solid var(--border)" }}
+            >
+              {[
+                { value: "100%",      label: "Job Success Score" },
+                { value: "Top Rated", label: "Upwork Badge"       },
+                { value: "5.0★",      label: "All Reviews"        },
+                { value: "< 2h",      label: "Response Time"      },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div className="font-bold text-2xl" style={{ color: "var(--text)", letterSpacing: "-0.02em" }}>{s.value}</div>
+                  <div className="text-xs mt-1" style={{ color: "var(--text-subtle)" }}>{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* RIGHT: Service navigator panel */}
+          <div
+            className="hidden lg:flex flex-col justify-center py-10 px-8"
+            style={{ background: "var(--bg-surface)" }}
           >
-            {SERVICES_DETAIL.map((svc) => (
-              <a
-                key={svc.id}
-                href={`#${svc.id}`}
-                className="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200"
-                style={{
-                  background: `${svc.color}10`,
-                  border: `1px solid ${svc.color}20`,
-                  color: `${svc.color}cc`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = `${svc.color}20`;
-                  e.currentTarget.style.color = svc.color;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = `${svc.color}10`;
-                  e.currentTarget.style.color = `${svc.color}cc`;
-                }}
-              >
-                {svc.title}
-              </a>
-            ))}
-          </motion.div>
+            <div className="label-tag mb-5">Jump to a service</div>
+            <div className="flex flex-col gap-1">
+              {SERVICES_DETAIL.map((svc) => (
+                <a
+                  key={svc.id}
+                  href={`#${svc.id}`}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover-row transition-colors duration-150"
+                >
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${svc.color}12`, border: `1px solid ${svc.color}22` }}
+                  >
+                    <svc.icon className="w-3.5 h-3.5" style={{ color: svc.color }} />
+                  </div>
+                  <span className="text-sm font-medium flex-1" style={{ color: "var(--text-muted)" }}>{svc.title}</span>
+                  <span style={{ color: "var(--text-subtle)", fontSize: "0.8rem" }}>→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 

@@ -30,77 +30,55 @@ function FacebookIcon({ className }: { className?: string }) {
 
 const NAV_LINKS = {
   Company: [
-    { label: "About", href: "/#about" },
-    { label: "Team", href: "/team" },
+    { label: "About",   href: "/#about" },
+    { label: "Team",    href: "/team"   },
   ],
   Services: [
-    { label: "Web Development", href: "/services#web" },
-    { label: "UI/UX Design", href: "/services#design" },
-    { label: "Virtual Assistant", href: "/services#va" },
-    { label: "Automation", href: "/services#automation" },
-    { label: "Customer Service", href: "/services#csr" },
+    { label: "Customer Service",    href: "/services#csr"        },
+    { label: "Virtual Assistance",  href: "/services#va"         },
+    { label: "Sales Support",       href: "/services#sales"      },
+    { label: "Web Development",     href: "/services#web"        },
+    { label: "Operations & PM",     href: "/services#operations" },
   ],
   Connect: [
-    { label: "Upwork Profile", href: "https://www.upwork.com/agencies/babartechsolutions/", external: true },
-    { label: "Email Us", href: "mailto:hello@babartechsolutions.com" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/company/babartechsolutions/posts/?feedView=all", external: true },
-    { label: "Instagram", href: "https://www.instagram.com/babartechsolutions/", external: true },
+    { label: "Upwork Profile", href: "https://www.upwork.com/agencies/babartechsolutions/",                   external: true  },
+    { label: "Email Us",       href: "mailto:hello@babartechsolutions.com"                                                    },
+    { label: "LinkedIn",       href: "https://www.linkedin.com/company/babartechsolutions/posts/?feedView=all", external: true },
+    { label: "Instagram",      href: "https://www.instagram.com/babartechsolutions/",                          external: true },
   ],
 };
 
 const SOCIAL = [
-  { icon: InstagramIcon, href: "https://www.instagram.com/babartechsolutions/", label: "Instagram" },
-  { icon: LinkedinIcon, href: "https://www.linkedin.com/company/babartechsolutions/posts/?feedView=all", label: "LinkedIn" },
-  { icon: FacebookIcon, href: "https://www.facebook.com/profile.php?id=61576992675253", label: "Facebook" },
-  { icon: Mail, href: "mailto:hello@babartechsolutions.com", label: "Email" },
+  { icon: InstagramIcon, href: "https://www.instagram.com/babartechsolutions/",                             label: "Instagram" },
+  { icon: LinkedinIcon,  href: "https://www.linkedin.com/company/babartechsolutions/posts/?feedView=all",   label: "LinkedIn"  },
+  { icon: FacebookIcon,  href: "https://www.facebook.com/profile.php?id=61576992675253",                    label: "Facebook"  },
+  { icon: Mail,          href: "mailto:hello@babartechsolutions.com",                                        label: "Email"     },
 ];
 
 export default function Footer() {
   return (
     <footer
       className="relative overflow-hidden"
-      style={{ background: "#030711" }}
+      style={{ background: "var(--bg)", borderTop: "1px solid var(--border)" }}
     >
-      {/* Top border glow */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(255,107,53,0.3), rgba(59,130,246,0.2), transparent)" }}
-      />
+      {/* Accent top line */}
+      <div className="absolute inset-x-0 top-0 h-[2px]"
+        style={{ background: "linear-gradient(90deg, var(--accent), rgba(240,101,41,0.3), transparent)" }} />
 
-      {/* Background grid */}
-      <div className="absolute inset-0 grid-bg-sm opacity-30" />
-
-      {/* Orange orb */}
-      <div
-        className="absolute bottom-0 right-0 w-96 h-96 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(240,101,41,0.05) 0%, transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-8">
+      <div className="relative z-10 w-full px-8 md:px-14 xl:px-20 pt-16 pb-8">
 
         {/* Main footer grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
 
-          {/* Brand column */}
+          {/* ── Brand column ── */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-5 group w-fit">
-              <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                <Logo size={40} />
-              </div>
-              <div>
-                <div className="text-white font-semibold leading-tight">
-                  Babar Tech{" "}
-                  <span className="text-gradient-orange">Solutions</span>
-                </div>
-                <div className="text-slate-600 text-xs">Premium Digital Agency</div>
-              </div>
+            <Link href="/" className="inline-block mb-5 group transition-transform duration-200 hover:scale-105" aria-label="Babar Tech Solutions">
+              <Logo size={44} />
             </Link>
 
-            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
-              Elite freelancing and software solutions agency. We build, support,
-              and scale your digital business — globally and with precision.
+            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: "var(--text-subtle)" }}>
+              Top Rated Upwork agency providing remote specialists across customer service,
+              virtual assistance, sales support, and web development.
             </p>
 
             {/* Social links */}
@@ -114,17 +92,17 @@ export default function Footer() {
                   rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110"
                   style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    color: "#64748B",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border)",
+                    color: "var(--text-subtle)",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255,107,53,0.3)";
-                    e.currentTarget.style.color = "#FF6B35";
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = "var(--accent)";
+                    e.currentTarget.style.color = "var(--accent)";
                   }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                    e.currentTarget.style.color = "#64748B";
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = "var(--border)";
+                    e.currentTarget.style.color = "var(--text-subtle)";
                   }}
                 >
                   <s.icon className="w-4 h-4" />
@@ -133,10 +111,13 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nav columns */}
+          {/* ── Nav columns ── */}
           {Object.entries(NAV_LINKS).map(([group, links]) => (
             <div key={group}>
-              <div className="text-white font-semibold text-sm mb-4">{group}</div>
+              <div className="font-semibold text-xs uppercase tracking-[0.1em] mb-4"
+                style={{ color: "var(--text)" }}>
+                {group}
+              </div>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
@@ -144,7 +125,10 @@ export default function Footer() {
                       href={link.href}
                       target={"external" in link && link.external ? "_blank" : undefined}
                       rel={"external" in link && link.external ? "noopener noreferrer" : undefined}
-                      className="group flex items-center gap-1 text-sm text-slate-500 hover:text-slate-300 transition-colors duration-200"
+                      className="group flex items-center gap-1 text-sm transition-colors duration-150"
+                      style={{ color: "var(--text-subtle)" }}
+                      onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+                      onMouseLeave={e => (e.currentTarget.style.color = "var(--text-subtle)")}
                     >
                       {link.label}
                       {"external" in link && link.external && (
@@ -158,17 +142,27 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom bar */}
+        {/* ── Bottom bar ── */}
         <div
           className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+          style={{ borderTop: "1px solid var(--border)" }}
         >
-          <div className="text-slate-600 text-xs">
-            © 2025 Babar Tech Solutions. All rights reserved. · CEO: Fahad Ali
+          <div className="text-xs" style={{ color: "var(--text-subtle)" }}>
+            © 2025 Babar Tech Solutions · CEO: Fahad Ali
           </div>
-          <div className="flex items-center gap-4 text-xs text-slate-600">
-            <Link href="#" className="hover:text-slate-400 transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-slate-400 transition-colors">Terms of Service</Link>
+          <div className="flex items-center gap-4 text-xs" style={{ color: "var(--text-subtle)" }}>
+            <Link href="#"
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-subtle)")}
+              className="transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="#"
+              onMouseEnter={e => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--text-subtle)")}
+              className="transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

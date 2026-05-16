@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 const FAQS = [
@@ -37,87 +36,73 @@ const FAQS = [
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const headerRef = useRef(null);
-  const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
 
   return (
-    <section className="relative py-24 overflow-hidden" style={{ background: "#05091A" }}>
-      <div className="absolute inset-0 grid-bg-sm opacity-20" />
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(22,102,204,0.3), transparent)" }}
-      />
+    <section
+      className="relative overflow-hidden"
+      style={{ background: "var(--bg)" }}
+    >
+      {/* Top accent */}
+      <div className="absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--border-strong), transparent)" }} />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-6">
+      <div className="relative z-10 w-full px-8 md:px-14 xl:px-20 py-24">
 
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6"
-            style={{ background: "rgba(22,102,204,0.08)", border: "1px solid rgba(22,102,204,0.2)", color: "#60A5FA" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#1666CC" }} />
-            Common Questions
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 24 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4"
-          >
-            Frequently Asked <span className="text-gradient">Questions</span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-400 text-lg"
-          >
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14"
+          style={{ borderBottom: "1px solid var(--border)", paddingBottom: "2.5rem" }}>
+          <div>
+            <div className="section-label mb-4">FAQ</div>
+            <h2
+              className="font-bold"
+              style={{
+                fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.03em",
+                color: "var(--text)",
+              }}
+            >
+              Common questions,<br />
+              <span style={{ color: "var(--accent)" }}>honest answers.</span>
+            </h2>
+          </div>
+          <p style={{ fontSize: "0.9rem", color: "var(--text-subtle)", maxWidth: "260px", lineHeight: 1.65 }}>
             Everything you need to know before getting started.
-          </motion.p>
+          </p>
         </div>
 
-        {/* FAQ list */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col gap-3"
-        >
+        {/* FAQ list — two columns on large screens */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0"
+          style={{ border: "1px solid var(--border)", borderRadius: "12px", overflow: "hidden" }}>
           {FAQS.map((faq, i) => {
             const isOpen = openIndex === i;
+            const isLeft = i % 2 === 0;
             return (
               <div
                 key={i}
-                className="rounded-2xl overflow-hidden transition-all duration-200"
                 style={{
-                  background: isOpen ? "rgba(10,16,36,0.98)" : "rgba(8,13,30,0.85)",
-                  border: isOpen
-                    ? "1px solid rgba(240,101,41,0.25)"
-                    : "1px solid rgba(255,255,255,0.07)",
+                  background: isOpen ? "var(--bg-elevated)" : "var(--bg-surface)",
+                  borderRight: isLeft ? "1px solid var(--border)" : undefined,
+                  borderBottom: i < FAQS.length - (FAQS.length % 2 === 0 ? 2 : 1)
+                    ? "1px solid var(--border)"
+                    : undefined,
+                  transition: "background 0.2s ease",
                 }}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
-                  style={{ cursor: "pointer" }}
+                  className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left"
                 >
                   <span
-                    className="text-base font-semibold transition-colors duration-200"
-                    style={{ color: isOpen ? "#F1F5F9" : "#CBD5E1" }}
+                    className="text-sm font-semibold leading-snug transition-colors duration-150"
+                    style={{ color: isOpen ? "var(--text)" : "var(--text-muted)" }}
                   >
                     {faq.q}
                   </span>
                   <ChevronDown
-                    className="w-5 h-5 flex-shrink-0 transition-transform duration-300"
+                    className="w-4 h-4 flex-shrink-0 mt-0.5 transition-transform duration-300"
                     style={{
-                      color: isOpen ? "#F06529" : "#475569",
+                      color: isOpen ? "var(--accent)" : "var(--text-subtle)",
                       transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                     }}
                   />
@@ -130,35 +115,26 @@ export default function FAQSection() {
                     transition: "max-height 0.32s ease",
                   }}
                 >
-                  <p className="px-6 pb-5 text-slate-400 text-sm leading-relaxed">
+                  <p className="px-6 pb-5 text-sm leading-relaxed"
+                    style={{ color: "var(--text-subtle)" }}>
                     {faq.a}
                   </p>
                 </div>
               </div>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mt-12"
-        >
-          <p className="text-slate-500 text-sm mb-4">Still have questions?</p>
+        <div className="text-center mt-12">
+          <p className="text-sm mb-4" style={{ color: "var(--text-subtle)" }}>Still have questions?</p>
           <a
             href="mailto:hello@babartechsolutions.com"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
-            style={{
-              background: "linear-gradient(135deg, #F06529, #f97316)",
-              boxShadow: "0 0 24px rgba(240,101,41,0.3)",
-            }}
+            className="btn-accent inline-flex items-center gap-2 text-sm"
           >
             Ask Us Directly
           </a>
-        </motion.div>
+        </div>
 
       </div>
     </section>
