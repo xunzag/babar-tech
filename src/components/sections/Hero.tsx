@@ -83,9 +83,12 @@ export default function Hero() {
       <div className="absolute inset-x-0 top-0 h-px"
         style={{ background: "linear-gradient(90deg, transparent, var(--accent), transparent)", opacity: 0.4 }} />
 
-      {/* Radial glow — blue tint from logo */}
-      <div className="absolute inset-x-0 top-0 h-[600px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 55% 45% at 28% 0%, rgba(20,100,204,0.06) 0%, transparent 100%)" }} />
+      {/* Orange glow — top right corner */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 55% 65% at 100% 0%, rgba(240,101,41,0.13) 0%, transparent 60%)" }} />
+      {/* Blue glow — top left */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 50% 60% at 0% 5%, rgba(20,100,204,0.11) 0%, transparent 60%)" }} />
 
       {/* Geometric decoration (desktop only) */}
       <HeroDecoration />
@@ -126,7 +129,7 @@ export default function Hero() {
             <Link href="/contact" className="btn-accent flex items-center gap-2 text-sm">
               Start a Project <ArrowRight className="w-4 h-4" />
             </Link>
-            <a href="https://calendly.com/babartechsolutions" target="_blank" rel="noopener noreferrer"
+            <a href="https://calendly.com/farhan-babar123/30min" target="_blank" rel="noopener noreferrer"
               className="btn-ghost flex items-center gap-2 text-sm">
               <CalendarDays className="w-4 h-4" /> Book a Call
             </a>

@@ -76,7 +76,7 @@ export default function CTASection() {
           </a>
 
           <a
-            href="https://calendly.com/babartechsolutions"
+            href="https://calendly.com/farhan-babar123/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ghost flex items-center justify-between gap-3 text-sm"
@@ -118,7 +118,7 @@ export default function CTASection() {
             Get a Free Quote <ArrowRight className="w-4 h-4" />
           </a>
           <a
-            href="https://calendly.com/babartechsolutions"
+            href="https://calendly.com/farhan-babar123/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ghost flex items-center justify-center gap-2 text-sm"

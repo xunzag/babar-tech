@@ -1,44 +1,42 @@
 "use client";
 
-import { BadgeCheck, Clock, Globe, ShieldCheck, CheckCircle2, Zap } from "lucide-react";
-
-const STATS = [
-  { value: "100%",       label: "Job Success Score"  },
-  { value: "Top Rated",  label: "Upwork Badge"        },
-  { value: "5.0 ★",     label: "Average Review"      },
-  { value: "< 2h",      label: "Response Time"       },
+const BIG_STATS = [
+  { value: "100%",  label: "Job Success Score on Upwork",               color: "#F06529" },
+  { value: "5.0★",  label: "Average rating, every verified review",      color: "#1464CC" },
+  { value: "14+",   label: "Real client engagements, zero ghost work",   color: "#F06529" },
+  { value: "24h",   label: "From brief to specialist actively working",  color: "#1464CC" },
 ];
 
 const REASONS = [
   {
-    icon: ShieldCheck,
-    title: "Verified by Upwork",
-    desc: "100% Job Success Score and Top Rated badge — earned through consistent client satisfaction, not inflated.",
+    n: "01",
+    title: "Verified, not promised",
+    desc: "100% JSS and Top Rated badge earned across 14+ client engagements. Every number is public, auditable on Upwork.",
   },
   {
-    icon: Globe,
-    title: "Global, async-ready",
-    desc: "Remote-first team covering all time zones. You get real coverage without paying for a local overhead.",
+    n: "02",
+    title: "Async-ready from day one",
+    desc: "Remote-first team covering every time zone. Real coverage without local overhead or sunrise delays on your tickets.",
   },
   {
-    icon: Zap,
-    title: "Onboarded in 24 hours",
-    desc: "No three-week hiring cycles. Your specialist is briefed and actively working within one business day.",
+    n: "03",
+    title: "24-hour onboarding",
+    desc: "No three-week hiring cycles. Your specialist is briefed and actively working within one business day of sign-off.",
   },
   {
-    icon: Clock,
-    title: "Deadline discipline",
-    desc: "We treat your timelines as non-negotiable. On-time delivery is a cultural expectation here, not a promise.",
+    n: "04",
+    title: "Deadlines are non-negotiable",
+    desc: "On-time delivery is a cultural expectation here — not a bullet point we added to make the landing page look good.",
   },
   {
-    icon: CheckCircle2,
-    title: "No long-term lock-in",
-    desc: "Start with one project or one person, scale the engagement as trust builds. No contracts required.",
+    n: "05",
+    title: "No lock-in contracts",
+    desc: "Start with one project or one specialist. Scale as trust builds. Leave whenever — no minimums, no exit penalties.",
   },
   {
-    icon: BadgeCheck,
-    title: "One point of contact",
-    desc: "Fahad and the team handle coordination so you never chase multiple freelancers across different platforms.",
+    n: "06",
+    title: "One contact, zero chasing",
+    desc: "Fahad handles all coordination. You never juggle multiple freelancers or track down replies across different platforms.",
   },
 ];
 
@@ -48,66 +46,111 @@ export default function WhyChooseUs() {
       className="relative w-full overflow-hidden"
       style={{ background: "var(--bg)" }}
     >
-      {/* Top accent */}
-      <div className="absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, var(--border-strong), transparent)" }} />
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{ background: "linear-gradient(90deg, transparent, var(--border-strong), transparent)" }}
+      />
 
-      {/* ── Stats strip ── */}
+      {/* ── Editorial headline ── */}
+      <div
+        className="px-8 md:px-14 xl:px-20 pt-20 pb-16"
+        style={{ borderBottom: "1px solid var(--border)" }}
+      >
+        <p className="text-xs uppercase tracking-[0.15em] mb-6" style={{ color: "var(--text-subtle)" }}>
+          Why Babar Tech
+        </p>
+        <h2
+          className="font-bold"
+          style={{
+            fontSize: "clamp(2.5rem, 5vw, 4.25rem)",
+            lineHeight: 1.04,
+            letterSpacing: "-0.04em",
+            color: "var(--text)",
+            maxWidth: "800px",
+          }}
+        >
+          Not a vendor.{" "}
+          <span style={{ color: "var(--accent)" }}>A team that ships.</span>
+        </h2>
+        <p
+          className="mt-6 max-w-xl"
+          style={{ fontSize: "1rem", color: "var(--text-muted)", lineHeight: 1.8 }}
+        >
+          Every metric we carry was earned through real client work — 14 verified reviews,
+          zero failed contracts, 100% job success on Upwork. The kind of track record
+          you check before you trust someone with your business.
+        </p>
+      </div>
+
+      {/* ── Large alternating stats ── */}
       <div
         className="grid grid-cols-2 lg:grid-cols-4"
         style={{ borderBottom: "1px solid var(--border)" }}
       >
-        {STATS.map((s, i) => (
+        {BIG_STATS.map((s, i) => (
           <div
             key={i}
-            className="flex flex-col gap-1.5 px-8 md:px-14 xl:px-20 py-10"
-            style={{
-              borderRight: i < STATS.length - 1 ? "1px solid var(--border)" : undefined,
-            }}
+            className="relative flex flex-col gap-3 px-8 md:px-12 xl:px-14 py-14"
+            style={{ borderRight: i < BIG_STATS.length - 1 ? "1px solid var(--border)" : undefined }}
           >
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse 80% 60% at 20% 40%, ${s.color}09 0%, transparent 65%)`,
+              }}
+            />
             <span
-              className="font-bold"
-              style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", letterSpacing: "-0.03em", color: "var(--text)" }}
+              className="relative font-black leading-none"
+              style={{
+                fontSize: "clamp(2.75rem, 5.5vw, 4.75rem)",
+                letterSpacing: "-0.05em",
+                color: s.color,
+              }}
             >
               {s.value}
             </span>
-            <span style={{ fontSize: "0.8rem", color: "var(--text-subtle)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            <span
+              className="relative text-xs leading-snug"
+              style={{ color: "var(--text-subtle)", maxWidth: "150px" }}
+            >
               {s.label}
             </span>
           </div>
         ))}
       </div>
 
-      {/* ── Body: label + reasons ── */}
+      {/* ── Numbered reasons — editorial list, no icon cards ── */}
       <div className="px-8 md:px-14 xl:px-20 py-16">
-        <div className="section-label mb-10">Why Babar Tech</div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0"
-          style={{ border: "1px solid var(--border)", borderRadius: "12px", overflow: "hidden" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
           {REASONS.map((r, i) => (
             <div
               key={i}
-              className="group flex items-start gap-4 p-6 transition-colors duration-150"
+              className="flex gap-6 py-8"
               style={{
-                background: "var(--bg-surface)",
-                borderRight: (i % 3 !== 2) ? "1px solid var(--border)" : undefined,
-                borderBottom: i < 3 ? "1px solid var(--border)" : undefined,
+                borderBottom: i < REASONS.length - 2 ? "1px solid var(--border)" : undefined,
+                borderLeft: i % 2 === 1 ? "1px solid var(--border)" : undefined,
+                paddingLeft: i % 2 === 1 ? "2.5rem" : undefined,
+                paddingRight: i % 2 === 0 ? "2.5rem" : undefined,
               }}
             >
-              <div
-                className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center mt-0.5"
-                style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
+              <span
+                className="font-mono font-bold flex-shrink-0 mt-0.5"
+                style={{
+                  fontSize: "0.75rem",
+                  color: i % 2 === 0 ? "#F06529" : "#1464CC",
+                  letterSpacing: "0.05em",
+                }}
               >
-                <r.icon className="w-4 h-4" style={{ color: "var(--accent)" }} />
-              </div>
+                {r.n}
+              </span>
               <div>
                 <h3
-                  className="font-semibold mb-1.5"
+                  className="font-semibold mb-2"
                   style={{ fontSize: "0.9375rem", color: "var(--text)" }}
                 >
                   {r.title}
                 </h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-subtle)", lineHeight: 1.7 }}>
+                <p style={{ fontSize: "0.85rem", color: "var(--text-subtle)", lineHeight: 1.75 }}>
                   {r.desc}
                 </p>
               </div>
@@ -117,26 +160,26 @@ export default function WhyChooseUs() {
 
         {/* Fahad quote */}
         <div
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-5 p-6 rounded-xl"
-          style={{ background: "var(--bg-surface)", border: "1px solid var(--border)" }}
+          className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-5 pt-10"
+          style={{ borderTop: "1px solid var(--border)" }}
         >
           <div
             className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden"
-            style={{ border: "1px solid var(--border-strong)" }}
+            style={{ border: "2px solid var(--accent)" }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/team/fahad.jpg" alt="Fahad Ali" className="w-full h-full object-cover object-top" />
           </div>
-          <div>
-            <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.7 }}>
-              &ldquo;We built this agency around one principle — if we wouldn&apos;t be proud to show the work
-              to our best client, it doesn&apos;t ship. Every person on this team holds that standard.&rdquo;
+          <blockquote>
+            <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", fontStyle: "italic", lineHeight: 1.78 }}>
+              &ldquo;If we wouldn&apos;t be proud to show the work to our best client, it doesn&apos;t ship.
+              Every person on this team holds that standard.&rdquo;
             </p>
-            <div className="mt-2 flex items-center gap-2">
+            <footer className="mt-2 flex items-center gap-2">
               <span style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--text)" }}>Fahad Ali</span>
               <span style={{ fontSize: "0.75rem", color: "var(--text-subtle)" }}>CEO & Founder</span>
-            </div>
-          </div>
+            </footer>
+          </blockquote>
         </div>
       </div>
     </section>

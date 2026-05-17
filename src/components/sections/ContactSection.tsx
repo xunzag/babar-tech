@@ -130,7 +130,7 @@ export default function ContactSection() {
                 Send a Message <ArrowRight className="w-4 h-4" />
               </Link>
               <a
-                href="https://calendly.com/babartechsolutions"
+                href="https://calendly.com/farhan-babar123/30min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-ghost flex items-center gap-2 text-sm"

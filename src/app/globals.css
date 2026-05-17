@@ -23,14 +23,14 @@
 :root {
   --radius: 0.625rem;
 
-  --bg:          #0C0C0E;
-  --bg-surface:  #141417;
-  --bg-elevated: #1C1C20;
-  --text:        #EDEDED;
-  --text-muted:  #999999;
-  --text-subtle: #555558;
-  --border:      rgba(255,255,255,0.07);
-  --border-strong: rgba(255,255,255,0.13);
+  --bg:          #070E1B;
+  --bg-surface:  #0C1526;
+  --bg-elevated: #111E35;
+  --text:        #EEF0F3;
+  --text-muted:  #8A95A3;
+  --text-subtle: #4A5568;
+  --border:      rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.11);
 
   --accent:   #F06529;
   --accent-2: #1666CC;
