@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/site/meta";
 import { CTA, Eyebrow } from "@/site/Blocks";
 import { REVIEWS, TEAM } from "@/site/content";
 import { Star } from "@/site/Icons";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
+  ...pageMeta({ title: "Meet the team · Babar Tech Solutions", description: "Meet the people behind Babar Tech Solutions: founder Fahad Ali and the specialists in customer service, sales, virtual assistance, customer success and operations.", path: "/team/", image: "/og/team.jpg" }),
   title: "Team",
-  description: "Meet the people behind Babar Tech Solutions: founder Fahad Ali and the specialists in customer service, sales, virtual assistance, customer success and operations.",
-  alternates: { canonical: "/team/" },
 };
 
 export default function TeamPage() {

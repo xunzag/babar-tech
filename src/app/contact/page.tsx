@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/site/meta";
 import { Eyebrow } from "@/site/Blocks";
 import ContactForm from "@/site/ContactForm";
 import { SITE } from "@/site/content";
@@ -6,9 +7,8 @@ import { ArrowUR, Calendar, Clock, Mail } from "@/site/Icons";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
+  ...pageMeta({ title: "Contact · Babar Tech Solutions", description: "Tell us the role you need filled. We'll match a vetted specialist the same day and have them working within 24 hours.", path: "/contact/", image: "/og/contact.jpg" }),
   title: "Contact",
-  description: "Tell us the role you need filled. We'll match a vetted specialist the same day and have them working within 24 hours.",
-  alternates: { canonical: "/contact/" },
 };
 
 export default function ContactPage() {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/site/meta";
 import Link from "next/link";
 import { CTA, Eyebrow } from "@/site/Blocks";
 import { SERVICES, SITE } from "@/site/content";
@@ -7,10 +8,8 @@ import Viz from "@/site/Viz";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
+  ...pageMeta({ title: "Services · Babar Tech Solutions", description: "Customer support, virtual assistance, sales and lead generation, customer success, operations and web development. Vetted specialists, matched the same day and working within 24 hours.", path: "/services/", image: "/og/services.jpg" }),
   title: "Services",
-  description:
-    "Customer support, virtual assistance, sales and lead generation, customer success, operations and web development. Vetted specialists, matched the same day and working within 24 hours.",
-  alternates: { canonical: "/services/" },
 };
 
 export default function ServicesPage() {

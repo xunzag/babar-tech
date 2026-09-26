@@ -107,7 +107,7 @@ export default function LiveDesk() {
     <div
       ref={ref}
       data-anim
-      className={`relative overflow-hidden rounded-[26px] text-[14px] ${running ? "" : "is-paused"}`}
+      className={`spot relative overflow-hidden rounded-[26px] text-[14px] ${running ? "" : "is-paused"}`}
       style={{ background: "var(--ink)", color: "var(--cream)", boxShadow: "0 50px 100px -40px rgb(15 17 20 / .55)" }}
     >
       {/* Clock header */}

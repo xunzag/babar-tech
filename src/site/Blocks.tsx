@@ -64,6 +64,7 @@ export function CTA() {
           </div>
         </div>
         {/* Brand mark, drifting slowly */}
+        <div data-parallax="0.12" className="pointer-events-none absolute inset-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/img/mark-3d.webp"
@@ -74,6 +75,7 @@ export function CTA() {
           data-anim
           className="float-mark pointer-events-none absolute -right-[14%] -bottom-[10%] w-[72%] max-w-[640px] sm:-right-[6%] sm:-bottom-[14%] sm:w-[52%]"
         />
+        </div>
       </div>
     </section>
   );
