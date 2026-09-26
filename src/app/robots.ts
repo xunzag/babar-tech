@@ -1,13 +1,11 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { SITE } from "@/site/content";
 
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: "https://babartechsolutions.com/sitemap.xml",
+    rules: { userAgent: "*", allow: "/", disallow: ["/__forms.html"] },
+    sitemap: `${SITE.url}/sitemap.xml`,
   };
 }

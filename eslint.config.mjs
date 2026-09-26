@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Legacy components kept for reference, not part of the build
+    "src/components/**",
+    "src/lib/**",
   ]),
 ]);
 
