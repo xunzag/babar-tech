@@ -1,39 +1,19 @@
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
+import { Arrow } from "@/site/Icons";
+import Words from "@/site/Words";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex flex-col" style={{ background: "#05091A" }}>
-      <Navbar />
-      <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="relative z-10">
-          <div
-            className="text-[10rem] font-bold leading-none mb-4"
-            style={{
-              background: "linear-gradient(135deg, #FF6B35, #FF8C42)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            404
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-4">Page Not Found</h1>
-          <p className="text-slate-400 max-w-md mx-auto mb-8">
-            The page you're looking for doesn't exist or has been moved.
-          </p>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white"
-            style={{
-              background: "linear-gradient(135deg, #FF6B35, #f97316)",
-              boxShadow: "0 0 24px rgba(255,107,53,0.3)",
-            }}
-          >
-            Back to Home
-          </Link>
+    <section className="flex min-h-[80svh] items-center pt-[var(--nav-h)]">
+      <div className="wrap">
+        <p className="eyebrow" data-reveal><span className="n">404</span> Page not found</p>
+        <Words as="h1" className="display mt-8 max-w-[12ch]" text="This desk is *empty.*" />
+        <p className="lede mt-8 max-w-md" data-reveal>The page you&apos;re after has moved or never existed. Everything else is still open for business.</p>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row" data-reveal>
+          <Link href="/" className="btn btn-orange">Back to the homepage <Arrow size={16} className="arr" /></Link>
+          <Link href="/contact/" className="btn btn-line">Contact us</Link>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

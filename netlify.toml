@@ -1,11 +1,28 @@
 [build]
-  command   = "npm run build"
-  publish   = "out"
+  command = "npm run build"
+  publish = "out"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
-[[redirects]]
-  from   = "/*"
-  to     = "/index.html"
-  status = 200
+# Static export: every route is a real file, so no SPA rewrite.
+# Missing paths fall through to out/404.html automatically.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"

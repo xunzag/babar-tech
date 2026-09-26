@@ -1,34 +1,16 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
+import { SITE } from "@/site/content";
 
 export const dynamic = "force-static";
 
-const BASE = "https://babartechsolutions.com";
-
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date("2026-09-26");
   return [
-    {
-      url: BASE,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${BASE}/services`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE}/team`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${BASE}/contact`,
-      lastModified: new Date("2025-05-16"),
-      changeFrequency: "yearly",
-      priority: 0.7,
-    },
-  ];
+    { path: "/", priority: 1, changeFrequency: "weekly" as const },
+    { path: "/services/", priority: 0.9, changeFrequency: "monthly" as const },
+    { path: "/team/", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/contact/", priority: 0.8, changeFrequency: "yearly" as const },
+    { path: "/privacy/", priority: 0.2, changeFrequency: "yearly" as const },
+    { path: "/cookies/", priority: 0.2, changeFrequency: "yearly" as const },
+  ].map((p) => ({ url: `${SITE.url}${p.path}`, lastModified, changeFrequency: p.changeFrequency, priority: p.priority }));
 }
