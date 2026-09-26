@@ -7,6 +7,7 @@ import Reviews from "@/site/home/Reviews";
 import ServiceStage from "@/site/home/ServiceStage";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
 import LiveDesk from "@/site/LiveDesk";
+import Ribbon from "@/site/Ribbon";
 import Words from "@/site/Words";
 
 const ROLES = [
@@ -26,7 +27,8 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       {/* ───────────── Hero ───────────── */}
       <section className="relative overflow-hidden pt-[calc(var(--nav-h)+40px)] sm:pt-[calc(var(--nav-h)+64px)]">
-        <div className="wrap">
+        <Ribbon className="absolute -right-[60%] top-[44%] h-[900px] w-[190%] opacity-90 sm:-right-[20%] sm:w-[130%] lg:inset-x-0 lg:top-0 lg:right-0 lg:h-[1100px] lg:w-full" />
+        <div className="wrap relative">
           <p className="eyebrow" data-reveal>
             <span className="dot-live" /> Top Rated on Upwork · {RECORD.jss} Job Success · {RECORD.rating}★ from {RECORD.reviews} reviews
           </p>
@@ -60,13 +62,15 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-7" data-reveal="scale" style={{ ["--d" as string]: 300 }}>
-              <LiveDesk />
+              <div data-tilt="3">
+                <LiveDesk />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Roles marquee */}
-        <div className="mt-20 border-y py-5 sm:mt-28" style={{ borderColor: "var(--line)" }} aria-label="Roles we staff">
+        <div className="relative mt-20 border-y py-5 sm:mt-28" style={{ borderColor: "var(--line)", background: "var(--paper)" }} aria-label="Roles we staff">
           <div className="marquee" data-anim>
             <div className="marquee__track" style={{ ["--dur" as string]: "55s" }}>
               {[0, 1].map((dup) => (
@@ -95,7 +99,7 @@ export default function Home() {
               { v: "24h", l: "From first call to first task" },
             ].map((s, i) => (
               <div key={s.l} className="pr-6 lg:border-l lg:pl-8 lg:first:border-l-0 lg:first:pl-0" style={{ borderColor: "var(--line)", ["--d" as string]: i * 90 }} data-reveal>
-                <p className="display tnum !text-[clamp(3rem,6vw,5.5rem)]">{s.v}</p>
+                <p className="display tnum !text-[clamp(3rem,6vw,5.5rem)]"><span data-count>{s.v}</span></p>
                 <p className="mt-3 max-w-[16rem] text-[14px]" style={{ color: "var(--mute)" }}>{s.l}</p>
               </div>
             ))}
@@ -120,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* ───────────── Hours ───────────── */}
-      <section id="hours" className="py-24 sm:py-32" style={{ background: "var(--paper-2)" }}>
+      <section id="hours" className="py-24 sm:py-32" style={{ background: "var(--paper-2)" }} data-expand>
         <div className="wrap grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Eyebrow n="02">Time zones</Eyebrow>
@@ -222,7 +226,7 @@ export default function Home() {
       </section>
 
       {/* ───────────── Reviews ───────────── */}
-      <section id="reviews" className="ink relative py-24 sm:py-36">
+      <section id="reviews" className="ink relative py-24 sm:py-36" data-expand>
         <div className="wrap">
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-7">

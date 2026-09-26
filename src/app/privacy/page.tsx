@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/site/meta";
 import Link from "next/link";
 import { SITE } from "@/site/content";
 import Legal from "@/site/Legal";
 
 export const metadata: Metadata = {
+  ...pageMeta({ title: "Privacy policy · Babar Tech Solutions", description: "How Babar Tech Solutions collects, uses and protects personal information.", path: "/privacy/", image: "/og/home.jpg" }),
   title: "Privacy policy",
-  description: "How Babar Tech Solutions collects, uses and protects personal information.",
-  alternates: { canonical: "/privacy/" },
 };
 
 export default function Privacy() {

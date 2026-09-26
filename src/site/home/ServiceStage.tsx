@@ -65,15 +65,15 @@ export default function ServiceStage() {
       {/* Sticky stage */}
       <div className="hidden lg:col-span-6 lg:block">
         <div className="sticky top-[calc(50vh-230px)]">
-          <div className="relative aspect-[4/3.4] rounded-[28px] p-5" style={{ background: "var(--paper-2)" }}>
+          <div className="spot spot-light relative aspect-[4/3.4] rounded-[28px] p-5" style={{ background: "var(--paper-2)" }} data-tilt="3">
             {SERVICES.map((s, i) => (
               <div
                 key={s.id}
-                className="absolute inset-5"
+                className="stage-panel absolute inset-5"
                 style={{
-                  opacity: active === i ? 1 : 0,
-                  transform: active === i ? "none" : `translateY(${i < active ? -24 : 24}px) scale(.97)`,
-                  transition: "opacity .6s var(--ease-out), transform .9s var(--ease-out)",
+                  clipPath: active === i ? "inset(0 0 0 0 round 22px)" : i < active ? "inset(0 0 100% 0 round 22px)" : "inset(100% 0 0 0 round 22px)",
+                  transform: active === i ? "none" : `translateY(${i < active ? -40 : 40}px) scale(.96)`,
+                  opacity: active === i ? 1 : 0.4,
                   pointerEvents: active === i ? "auto" : "none",
                 }}
                 aria-hidden={active !== i}

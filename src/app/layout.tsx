@@ -6,7 +6,9 @@ import CookieConsent from "@/site/CookieConsent";
 import { SERVICES, SITE } from "@/site/content";
 import Footer from "@/site/Footer";
 import Motion from "@/site/Motion";
+import { pageMeta } from "@/site/meta";
 import Nav from "@/site/Nav";
+import ScrollFx from "@/site/ScrollFx";
 import WelcomeNote from "@/site/WelcomeNote";
 
 const display = Bricolage_Grotesque({
@@ -25,29 +27,26 @@ const DESC =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
+  ...pageMeta({
+    title: "Babar Tech Solutions: your next hire starts tomorrow",
+    description: DESC,
+    path: "/",
+    imageAlt: "Babar Tech Solutions: your next hire starts tomorrow. Top Rated on Upwork, 100% Job Success.",
+  }),
   title: { default: TITLE, template: "%s · Babar Tech Solutions" },
-  description: DESC,
   applicationName: SITE.name,
   authors: [{ name: "Fahad Ali" }],
   creator: SITE.name,
+  publisher: SITE.name,
+  category: "business",
   keywords: [
     "remote staffing agency", "virtual assistant agency", "outsourced customer support", "cold calling agency",
     "appointment setters", "customer success outsourcing", "offshore developers Pakistan", "Top Rated Upwork agency",
   ],
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: SITE.url,
-    siteName: SITE.name,
-    title: "Babar Tech Solutions: your next hire starts tomorrow",
-    description: DESC,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Babar Tech Solutions" }],
-  },
-  twitter: { card: "summary_large_image", title: "Babar Tech Solutions", description: DESC, images: ["/og.png"] },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   verification: { google: "MTsCUahIvhCfrmxCiVffsg2isT9pWtdtCHGJToUIW_I" },
-  formatDetection: { telephone: false },
+  formatDetection: { telephone: false, email: false, address: false },
+  appleWebApp: { title: "Babar Tech", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -65,7 +64,7 @@ const jsonLd = {
       name: SITE.name,
       url: SITE.url,
       logo: `${SITE.url}/img/mark.png`,
-      image: `${SITE.url}/og.png`,
+      image: `${SITE.url}/og/home.jpg`,
       email: SITE.email,
       description: DESC,
       foundingDate: String(SITE.founded),
@@ -95,6 +94,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main id="main">{children}</main>
         <Footer />
         <Motion />
+        <ScrollFx />
         <CookieConsent />
         <WelcomeNote />
         <Analytics />

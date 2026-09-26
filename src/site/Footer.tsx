@@ -92,7 +92,7 @@ export default function Footer() {
         <p
           className="display whitespace-nowrap text-center leading-[0.75]"
           style={{ fontSize: "clamp(5rem, 21vw, 21rem)", color: "#1c1f24", marginBottom: "-0.12em" }}
-          data-reveal
+          data-drift="-0.18"
         >
           Babar Tech
         </p>

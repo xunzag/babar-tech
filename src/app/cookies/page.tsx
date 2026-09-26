@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/site/meta";
 import Link from "next/link";
 import { SITE } from "@/site/content";
 import Legal from "@/site/Legal";
 import CookieSettingsButton from "@/site/CookieSettingsButton";
 
 export const metadata: Metadata = {
+  ...pageMeta({ title: "Cookie policy · Babar Tech Solutions", description: "Which cookies and browser storage babartechsolutions.com uses, and how to control them.", path: "/cookies/", image: "/og/home.jpg" }),
   title: "Cookie policy",
-  description: "Which cookies and browser storage babartechsolutions.com uses, and how to control them.",
-  alternates: { canonical: "/cookies/" },
 };
 
 export default function Cookies() {
