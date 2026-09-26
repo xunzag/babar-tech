@@ -8,11 +8,17 @@ import ServiceStage from "@/site/home/ServiceStage";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
 import LiveDesk from "@/site/LiveDesk";
 import Ribbon from "@/site/Ribbon";
+import ScrubText from "@/site/ScrubText";
 import Words from "@/site/Words";
 
 const ROLES = [
   "Customer support reps", "Executive assistants", "Cold callers", "Appointment setters", "Customer success managers",
   "Project coordinators", "E-commerce operations", "Full-stack developers", "Automation builders", "Help-desk agents",
+];
+
+const TOOLS = [
+  "HubSpot", "GoHighLevel", "Gorgias", "Zendesk", "Freshdesk", "Asana", "Trello", "Notion", "Slack",
+  "Google Workspace", "Microsoft 365", "Next.js", "React", "Laravel", "Zapier", "Make",
 ];
 
 const faqLd = {
@@ -32,7 +38,9 @@ export default function Home() {
           <p className="eyebrow" data-reveal>
             <span className="dot-live" /> Top Rated on Upwork · {RECORD.jss} Job Success · {RECORD.rating}★ from {RECORD.reviews} reviews
           </p>
-          <Words as="h1" className="display mt-7 sm:mt-9" text="Your next hire | starts *tomorrow.*" />
+          <div data-hero-out>
+            <Words as="h1" className="display mt-7 sm:mt-9" text="Your next hire | starts *tomorrow.*" />
+          </div>
 
           <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5 lg:pt-4">
@@ -85,6 +93,20 @@ export default function Home() {
               ))}
             </div>
           </div>
+          <div className="marquee marquee-rev mt-4" data-anim aria-hidden>
+            <div className="marquee__track" style={{ ["--dur" as string]: "70s" }}>
+              {[0, 1].map((dup) => (
+                <ul key={dup} className="flex flex-none items-center">
+                  {TOOLS.map((r) => (
+                    <li key={r} className="mono flex items-center gap-6 pr-6 text-[13px] uppercase tracking-[0.08em] whitespace-nowrap" style={{ color: "var(--faint)" }}>
+                      {r}
+                      <span style={{ color: "var(--line-strong)" }}>/</span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -104,6 +126,17 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ───────────── Statement (scroll-scrubbed) ───────────── */}
+      <section className="pb-24 sm:pb-40">
+        <div className="wrap">
+          <p className="eyebrow" data-reveal>What you&apos;re actually buying</p>
+          <ScrubText
+            className="mt-8 max-w-[22ch] text-[clamp(2rem,5.2vw,4.6rem)] font-semibold leading-[1.02] tracking-[-0.035em] [font-family:var(--font-display)]"
+            text="Most agencies sell you hours. *We sell you an empty to-do list.* The inbox answered, the calls made, the calendar sorted, the code shipped, by people Fahad hires, trains and still works beside."
+          />
         </div>
       </section>
 
@@ -210,9 +243,9 @@ export default function Home() {
 
           <ul className="no-scrollbar -mx-[var(--gutter)] mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-2 lg:mx-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:px-0">
             {TEAM.map((m, i) => (
-              <li key={m.slug} className="group w-[62vw] max-w-[260px] flex-none snap-start lg:w-auto lg:max-w-none" data-reveal style={{ ["--d" as string]: i * 70 }}>
+              <li key={m.slug} className="group w-[62vw] max-w-[260px] flex-none snap-start lg:w-auto lg:max-w-none">
                 <Link href={`/team/#${m.slug}`} className="block">
-                  <div className="photo photo-mono aspect-[4/5] rounded-[18px]">
+                  <div className="photo photo-mono aspect-[4/5] rounded-[18px]" data-reveal="img" style={{ ["--d" as string]: i * 90 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={m.photo} alt={`${m.name}, ${m.role}`} width={400} height={500} loading="lazy" />
                   </div>

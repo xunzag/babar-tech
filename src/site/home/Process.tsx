@@ -46,7 +46,7 @@ export default function Process() {
       {STEPS.map((s, i) => {
         const on = p >= (i + 0.35) / STEPS.length || (i === 0 && p > 0.02);
         return (
-          <li key={s.when} className="relative pl-12 lg:pl-0 lg:pt-14">
+          <li key={s.when} className="relative pl-12 lg:pl-0 lg:pt-14" data-reveal style={{ ["--d" as string]: i * 120 }}>
             <span
               className="absolute left-0 top-0 grid h-6 w-6 place-items-center rounded-full transition-all duration-500"
               style={{ background: on ? "var(--orange)" : "var(--paper)", boxShadow: on ? "0 0 0 6px rgb(242 112 31 / .15)" : "inset 0 0 0 1px var(--line-strong)" }}

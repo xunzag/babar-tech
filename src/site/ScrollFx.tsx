@@ -9,7 +9,9 @@ import { useEffect, useRef } from "react";
  *  - Lenis smooth scrolling (desktop pointer only, never with reduced motion)
  *  - [data-parallax="0.2"]   translateY relative to the element's distance from viewport centre
  *  - [data-drift="-0.3"]     translateX by scroll position while in view
- *  - [data-expand]           sets --e 0→1 as a section rises into view (CSS turns it into clip-path)
+ *  - [data-expand], [data-scale-in]  set --e 0→1 as a section rises into view
+ *  - [data-scrub]            sets --p 0→1 across the element's pass through the viewport
+ *  - [data-hero-out]         sets --h 0→1 over the first screen of scrolling
  *  - .marquee__track         playback speeds up and reverses with scroll velocity
  *  - .btn / [data-magnetic]  drift toward the pointer
  *  - [data-tilt]             3D tilt + spotlight (--sx/--sy) following the pointer
@@ -22,20 +24,36 @@ export default function ScrollFx() {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (reduce) return;
 
-    const lenis = finePointer ? new Lenis({ lerp: 0.1, anchors: { offset: -80 }, stopInertiaOnNavigate: true }) : null;
+    // Smooth, weighted wheel scrolling for mouse/trackpad users. Touch keeps native momentum.
+    const lenis = finePointer
+      ? new Lenis({
+          duration: reduce ? 0.8 : 1.25,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          wheelMultiplier: 0.9,
+          anchors: { offset: -80 },
+          stopInertiaOnNavigate: true,
+        })
+      : null;
     lenisRef.current = lenis;
 
-    type Item = { el: HTMLElement; kind: "p" | "d" | "e"; f: number };
+    type Item = { el: HTMLElement; kind: "p" | "d" | "e" | "s"; f: number };
     let items: Item[] = [];
+    let heroes: HTMLElement[] = [];
     let tracks: Animation[] = [];
+    const all = (sel: string) => [...document.querySelectorAll<HTMLElement>(sel)];
     const collect = () => {
       items = [
-        ...[...document.querySelectorAll<HTMLElement>("[data-parallax]")].map((el) => ({ el, kind: "p" as const, f: parseFloat(el.dataset.parallax || "0.15") })),
-        ...[...document.querySelectorAll<HTMLElement>("[data-drift]")].map((el) => ({ el, kind: "d" as const, f: parseFloat(el.dataset.drift || "-0.2") })),
-        ...[...document.querySelectorAll<HTMLElement>("[data-expand]")].map((el) => ({ el, kind: "e" as const, f: 0 })),
+        ...all("[data-scrub]").map((el) => ({ el, kind: "s" as const, f: 0 })),
+        ...(reduce
+          ? []
+          : [
+              ...all("[data-parallax]").map((el) => ({ el, kind: "p" as const, f: parseFloat(el.dataset.parallax || "0.15") })),
+              ...all("[data-drift]").map((el) => ({ el, kind: "d" as const, f: parseFloat(el.dataset.drift || "-0.2") })),
+              ...all("[data-expand], [data-scale-in]").map((el) => ({ el, kind: "e" as const, f: 0 })),
+            ]),
       ];
+      heroes = reduce ? [] : all("[data-hero-out]");
       tracks = [...document.querySelectorAll<HTMLElement>(".marquee__track")].flatMap((el) => el.getAnimations());
     };
     collect();
@@ -66,11 +84,16 @@ export default function ScrollFx() {
           } else if (it.kind === "d") {
             const prog = (vh - r.top) / (vh + r.height); // 0 entering → 1 leaving
             it.el.style.setProperty("--dx", `${((prog - 0.5) * it.f * 100).toFixed(2)}%`);
-          } else {
+          } else if (it.kind === "e") {
             const e = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.75)));
             it.el.style.setProperty("--e", e.toFixed(3));
+          } else {
+            const pr = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+            it.el.style.setProperty("--p", pr.toFixed(3));
           }
         }
+        const h = Math.min(1, y / (vh * 0.9)).toFixed(3);
+        for (const el of heroes) el.style.setProperty("--h", h);
         lastY = y;
       }
 
