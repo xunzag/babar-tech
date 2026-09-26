@@ -28,8 +28,8 @@ export default function TeamPage() {
       {/* Founder */}
       <section id={founder.slug} className="py-20 sm:py-28">
         <div className="wrap grid items-end gap-10 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5" data-reveal="scale">
-            <div className="photo aspect-[4/5] rounded-[28px]">
+          <div className="lg:col-span-5">
+            <div className="photo aspect-[4/5] rounded-[28px]" data-reveal="img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={founder.photo} alt={`${founder.name}, ${founder.role}`} width={400} height={500} />
             </div>
@@ -55,8 +55,8 @@ export default function TeamPage() {
             const review = REVIEWS.find((r) => m.name.startsWith(r.who));
             return (
               <article key={m.slug} id={m.slug} className="group grid gap-8 border-t py-12 sm:py-16 md:grid-cols-12 md:gap-10" style={{ borderColor: "var(--line)" }}>
-                <div className="md:col-span-4 lg:col-span-3" data-reveal>
-                  <div className="photo photo-mono aspect-[4/5] max-w-[340px] rounded-[22px]">
+                <div className="md:col-span-4 lg:col-span-3">
+                  <div className="photo photo-mono aspect-[4/5] max-w-[340px] rounded-[22px]" data-reveal="img">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={m.photo}

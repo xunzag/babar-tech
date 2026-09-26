@@ -67,8 +67,6 @@ export default function LiveDesk() {
   const seq = useRef(10);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
     // Restart every lane's clock when the desk comes back into view
     const io = new IntersectionObserver(
       ([e]) => {

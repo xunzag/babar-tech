@@ -37,13 +37,12 @@ export default function Motion() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const reveal = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
             e.target.classList.add("is-in");
-            if (!reduced) e.target.querySelectorAll<HTMLElement>("[data-count]").forEach(countUp);
+            e.target.querySelectorAll<HTMLElement>("[data-count]").forEach(countUp);
             reveal.unobserve(e.target);
           }
         }

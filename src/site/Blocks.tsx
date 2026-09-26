@@ -49,7 +49,7 @@ export function FAQ({ items = FAQS, n }: { items?: { q: string; a: string }[]; n
 export function CTA() {
   return (
     <section className="px-2 pb-2 sm:px-3 sm:pb-3">
-      <div className="ink relative overflow-hidden rounded-[28px] sm:rounded-[36px]">
+      <div className="ink relative overflow-hidden rounded-[28px] sm:rounded-[36px]" data-scale-in>
         <div className="wrap relative z-10 pt-20 pb-[62vw] sm:py-36">
           <Eyebrow>Ready when you are</Eyebrow>
           <Words as="h2" className="display mt-8 max-w-[11ch]" text="Stop doing it all *yourself.*" />
