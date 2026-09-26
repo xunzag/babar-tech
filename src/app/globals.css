@@ -197,11 +197,12 @@
 .js [data-reveal="scale"] { transform: translate3d(0, 48px, 0) scale(0.92); }
 .js [data-reveal="left"] { transform: translate3d(-64px, 0, 0); }
 .js [data-reveal].is-in { opacity: 1; transform: none; filter: none; }
-/* Photos: the frame wipes open while the image settles from a zoom */
-.js [data-reveal="img"] { opacity: 1; filter: none; transform: none; clip-path: inset(100% 0 0 0 round 18px); transition: clip-path 1.3s var(--ease-io); transition-delay: calc(var(--d, 0) * 1ms); }
-.js [data-reveal="img"] img { transform: scale(1.25); transition: transform 1.8s var(--ease-out), filter .6s ease; transition-delay: calc(var(--d, 0) * 1ms); }
-.js [data-reveal="img"].is-in { clip-path: inset(0 0 0 0 round 18px); }
-.js [data-reveal="img"].is-in img { transform: none; }
+/* Photos: the image wipes up inside its frame while settling from a zoom.
+   The clip lives on the <img>, never on the observed frame: Chromium's
+   IntersectionObserver treats a fully clipped target as invisible, so it would never reveal. */
+.js [data-reveal="img"] { opacity: 1; filter: none; transform: none; background: transparent; }
+.js [data-reveal="img"] img { clip-path: inset(100% 0 0 0); transform: scale(1.25); transition: clip-path 1.3s var(--ease-io), transform 1.8s var(--ease-out), filter .6s ease; transition-delay: calc(var(--d, 0) * 1ms); }
+.js [data-reveal="img"].is-in img { clip-path: inset(0 0 0 0); transform: none; }
 
 /* Word-by-word masked headline reveal */
 .words .w { display: inline-block; overflow: clip; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
