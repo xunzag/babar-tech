@@ -37,6 +37,7 @@ export default function Motion() {
   const pathname = usePathname();
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-ready", "");
     const reveal = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {

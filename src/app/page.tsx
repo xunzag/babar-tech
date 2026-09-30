@@ -6,7 +6,7 @@ import Process from "@/site/home/Process";
 import Reviews from "@/site/home/Reviews";
 import ServiceStage from "@/site/home/ServiceStage";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
-import LiveDesk from "@/site/LiveDesk";
+import TodoList from "@/site/TodoList";
 import Ribbon from "@/site/Ribbon";
 import ScrubText from "@/site/ScrubText";
 import Words from "@/site/Words";
@@ -70,8 +70,8 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-7" data-reveal="scale" style={{ ["--d" as string]: 300 }}>
-              <div data-tilt="3">
-                <LiveDesk />
+              <div data-tilt="4">
+                <TodoList />
               </div>
             </div>
           </div>
