@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/site/Analytics";
 import CookieConsent from "@/site/CookieConsent";
@@ -19,6 +19,7 @@ const display = Bricolage_Grotesque({
   display: "swap",
 });
 const body = Geist({ variable: "--font-body", subsets: ["latin"], display: "swap" });
+const hand = Caveat({ variable: "--font-hand", subsets: ["latin"], weight: ["500", "600"], display: "swap" });
 const mono = Geist_Mono({ variable: "--font-mono-face", subsets: ["latin"], display: "swap", preload: false });
 
 const TITLE = "Babar Tech Solutions: vetted remote teams for support, sales, admin and development";
@@ -83,10 +84,16 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} ${hand.variable}`} suppressHydrationWarning>
       <head>
         {/* Enables reveal animations only when JS runs, so content is never hidden without it */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script
+          dangerouslySetInnerHTML={{
+            // If the app bundle never starts (old browser, blocked script), un-hide everything after 3s
+            __html:
+              "var d=document.documentElement;d.classList.add('js');setTimeout(function(){if(!d.hasAttribute('data-ready'))d.classList.remove('js')},3000)",
+          }}
+        />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>

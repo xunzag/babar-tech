@@ -15,7 +15,7 @@ npm run lint
 | --- | --- |
 | `src/site/content.ts` | **All copy**: services, team, reviews, FAQ, links. Edit text here. |
 | `src/app/*` | Routes: `/`, `/services`, `/team`, `/contact`, `/privacy`, `/cookies`, 404 |
-| `src/site/LiveDesk.tsx` | Hero "live desk": ticking clocks + task lanes |
+| `src/site/TodoList.tsx` | Hero to-do list the team ticks off, with local/team clocks |
 | `src/site/Viz.tsx` | Animated service scenes (pure CSS) |
 | `src/site/home/*` | Home-only interactive sections (service stage, hours tool, process, reviews) |
 | `src/site/CookieConsent.tsx`, `consent.ts`, `Analytics.tsx` | Consent banner/settings and consent-gated analytics |

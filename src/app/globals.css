@@ -189,18 +189,17 @@
 .js [data-reveal] {
   opacity: 0;
   transform: translate3d(0, 64px, 0);
-  filter: blur(8px);
-  transition: opacity 1.1s var(--ease-out), transform 1.4s var(--ease-out), filter 1.1s var(--ease-out);
+  transition: opacity 1.1s var(--ease-out), transform 1.4s var(--ease-out);
   transition-delay: calc(var(--d, 0) * 1ms);
 }
 .js [data-reveal="fade"] { transform: none; }
 .js [data-reveal="scale"] { transform: translate3d(0, 48px, 0) scale(0.92); }
 .js [data-reveal="left"] { transform: translate3d(-64px, 0, 0); }
-.js [data-reveal].is-in { opacity: 1; transform: none; filter: none; }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
 /* Photos: the image wipes up inside its frame while settling from a zoom.
    The clip lives on the <img>, never on the observed frame: Chromium's
    IntersectionObserver treats a fully clipped target as invisible, so it would never reveal. */
-.js [data-reveal="img"] { opacity: 1; filter: none; transform: none; background: transparent; }
+.js [data-reveal="img"] { opacity: 1; transform: none; background: transparent; }
 .js [data-reveal="img"] img { clip-path: inset(100% 0 0 0); transform: scale(1.25); transition: clip-path 1.3s var(--ease-io), transform 1.8s var(--ease-out), filter .6s ease; transition-delay: calc(var(--d, 0) * 1ms); }
 .js [data-reveal="img"].is-in img { clip-path: inset(0 0 0 0); transform: none; }
 
@@ -220,7 +219,7 @@
 /* Reduced motion means less movement, not a dead page: keep fades, small loops and
    smooth scrolling; drop travel, zoom, parallax and tilt. */
 @media (prefers-reduced-motion: reduce) {
-  .js [data-reveal], .js [data-reveal="scale"], .js [data-reveal="left"] { transform: none; filter: none; }
+  .js [data-reveal], .js [data-reveal="scale"], .js [data-reveal="left"] { transform: none; }
   .js [data-reveal="img"] img { transform: none; }
   .js .words .w > span { transform: none; opacity: 0; transition: opacity 0.9s ease; transition-delay: calc(var(--i) * 40ms + var(--d, 0) * 1ms); }
   .js .words.is-in .w > span { opacity: 1; }
@@ -380,8 +379,8 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
 @layer components {
-  [data-parallax] { transform: translate3d(0, var(--py, 0px), 0); will-change: transform; }
-  [data-drift] { transform: translate3d(var(--dx, 0%), 0, 0); will-change: transform; }
+  [data-parallax] { transform: translate3d(0, var(--py, 0px), 0); }
+  [data-drift] { transform: translate3d(var(--dx, 0%), 0, 0); }
 
   /* Sections that grow from an inset card to full bleed as they arrive */
   [data-expand] {
@@ -450,4 +449,51 @@ html.lenis, html.lenis body { height: auto; }
   [data-hero-out] { transform: translate3d(0, calc(var(--h, 0) * -90px), 0); opacity: calc(1 - var(--h, 0) * 0.9); }
 
   .marquee-rev .marquee__track { animation-direction: reverse; }
+}
+
+/* ═══════════════════════ Hero to-do list ═══════════════════════ */
+@layer components {
+  .hand { font-family: var(--font-hand), "Bradley Hand", cursive; font-weight: 500; letter-spacing: 0; }
+
+  .paper {
+    background: #fdfcf8;
+    border-radius: 6px;
+    box-shadow: 0 1px 1px rgb(15 17 20 / 0.05), 0 12px 24px -14px rgb(15 17 20 / 0.28), 0 40px 70px -40px rgb(15 17 20 / 0.35);
+  }
+  .paper:not(.paper-front) { background: #f6f3ec; }
+  .paper-front::before {
+    /* red margin line */
+    content: ""; position: absolute; top: 0; bottom: 0; left: 14px; width: 1px; background: rgb(242 112 31 / 0.35);
+  }
+  @media (min-width: 640px) { .paper-front::before { left: 20px; } }
+  .paper-front::after {
+    /* faint paper fibre */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .4  0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .tape {
+    background: rgb(236 231 218 / 0.78);
+    box-shadow: 0 1px 2px rgb(15 17 20 / 0.12);
+    clip-path: polygon(2% 8%, 8% 0, 14% 7%, 22% 1%, 30% 8%, 40% 0, 50% 6%, 60% 0, 70% 7%, 80% 1%, 90% 7%, 98% 0, 100% 50%, 97% 94%, 88% 100%, 78% 93%, 66% 100%, 55% 94%, 44% 100%, 33% 93%, 22% 100%, 11% 94%, 3% 100%, 0 50%);
+    z-index: 2;
+  }
+
+  /* New rows are "written in" from the left */
+  .todo-row { display: grid; grid-template-rows: 1fr; animation: todo-write 0.8s var(--ease-out) both; }
+  .todo-row > div { overflow: hidden; min-height: 0; }
+  @keyframes todo-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  /* Finished rows fold away */
+  .todo-row.is-leaving { animation: todo-leave 0.7s var(--ease-io) forwards; }
+  @keyframes todo-leave { to { grid-template-rows: 0fr; opacity: 0; transform: translateX(24px); } }
+
+  .todo-check path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: pen 0.35s ease-out forwards; }
+  .todo-strike path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: pen 0.5s ease-in-out 0.25s forwards; }
+  @keyframes pen { to { stroke-dashoffset: 0; } }
+  .todo-text { transition: color 0.6s ease 0.5s; }
+  .is-done .todo-text { color: var(--faint); }
+  .todo-note { clip-path: inset(0 100% 0 0); }
+  .is-done .todo-note { animation: todo-note 0.9s var(--ease-out) 0.55s forwards; }
+  @keyframes todo-note { to { clip-path: inset(0 0 0 0); } }
+  .todo-avatar { opacity: 0; transform: scale(0.4) rotate(-12deg); transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .is-done .todo-avatar { opacity: 1; transform: none; }
 }
