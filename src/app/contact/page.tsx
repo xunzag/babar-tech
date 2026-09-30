@@ -7,8 +7,8 @@ import { ArrowUR, Calendar, Clock, Mail } from "@/site/Icons";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
-  ...pageMeta({ title: "Contact · Babar Tech Solutions", description: "Tell us the role you need filled. We'll match a vetted specialist the same day and have them working within 24 hours.", path: "/contact/", image: "/og/contact.jpg" }),
-  title: "Contact",
+  ...pageMeta({ title: "Hire a Remote Specialist · Babar Tech Solutions", description: "Tell us the role you need filled. We'll match a vetted specialist the same day and have them working within 24 hours.", path: "/contact/", image: "/og/contact.jpg" }),
+  title: "Hire a Remote Specialist",
 };
 
 export default function ContactPage() {

@@ -22,9 +22,9 @@ const body = Geist({ variable: "--font-body", subsets: ["latin"], display: "swap
 const hand = Caveat({ variable: "--font-hand", subsets: ["latin"], weight: ["500", "600"], display: "swap" });
 const mono = Geist_Mono({ variable: "--font-mono-face", subsets: ["latin"], display: "swap", preload: false });
 
-const TITLE = "Babar Tech Solutions: vetted remote teams for support, sales, admin and development";
+const TITLE = "Babar Tech Solutions | Remote Staffing & Virtual Assistants";
 const DESC =
-  "Top Rated Upwork agency with a 100% Job Success Score. Vetted customer support reps, virtual assistants, sales callers, project coordinators and developers, matched the same day and working within 24 hours.";
+  "Top Rated Upwork agency, 100% Job Success. Vetted support reps, virtual assistants, sales callers and developers, working for you within 24 hours.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),

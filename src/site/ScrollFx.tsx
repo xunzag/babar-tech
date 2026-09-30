@@ -57,7 +57,6 @@ export default function ScrollFx() {
       tracks = [...document.querySelectorAll<HTMLElement>(".marquee__track")].flatMap((el) => el.getAnimations());
     };
     collect();
-    const recollect = window.setTimeout(collect, 500);
 
     let raf = 0;
     let lastY = -1;
@@ -68,6 +67,7 @@ export default function ScrollFx() {
     const frame = (t: number) => {
       lenis?.raf(t);
       const y = window.scrollY;
+      lastYBefore = lastY;
       const dt = Math.max(1, t - lastT);
       const instant = lastY < 0 ? 0 : (y - lastY) / dt; // px per ms
       vel += (instant - vel) * 0.15;
@@ -104,12 +104,28 @@ export default function ScrollFx() {
         rate = next;
         for (const a of tracks) a.playbackRate = rate;
       }
-      raf = requestAnimationFrame(frame);
+      // Sleep when nothing is moving; any input wakes the loop again
+      const busy = y !== lastYBefore || Math.abs(vel) > 0.002 || Math.abs(rate - 1) > 0.002 || !!lenis?.isScrolling;
+      raf = busy || t - wokeAt < 400 ? requestAnimationFrame(frame) : 0;
     };
-    raf = requestAnimationFrame(frame);
+    let wokeAt = 0;
+    let lastYBefore = -1;
+    const wake = () => {
+      wokeAt = performance.now();
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
+    const WAKE = ["scroll", "wheel", "touchmove", "keydown", "resize", "pointerdown"] as const;
+    WAKE.forEach((ev) => window.addEventListener(ev, wake, { passive: true }));
+    wake();
+    const recollect = window.setTimeout(() => {
+      collect();
+      lastY = -1;
+      wake();
+    }, 500);
 
     return () => {
       cancelAnimationFrame(raf);
+      WAKE.forEach((ev) => window.removeEventListener(ev, wake));
       window.clearTimeout(recollect);
       lenis?.destroy();
       lenisRef.current = null;

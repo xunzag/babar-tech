@@ -8,8 +8,8 @@ import Viz from "@/site/Viz";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
-  ...pageMeta({ title: "Services · Babar Tech Solutions", description: "Customer support, virtual assistance, sales and lead generation, customer success, operations and web development. Vetted specialists, matched the same day and working within 24 hours.", path: "/services/", image: "/og/services.jpg" }),
-  title: "Services",
+  ...pageMeta({ title: "Remote Staffing Services · Babar Tech Solutions", description: "Customer support, virtual assistants, sales and lead generation, customer success, operations and web development. Vetted specialists, working in 24 hours.", path: "/services/", image: "/og/services.jpg" }),
+  title: "Remote Staffing Services",
 };
 
 export default function ServicesPage() {

@@ -102,12 +102,12 @@ function Sales() {
         ))}
       </div>
       {/* Leads flowing down the funnel */}
-      <div className="relative mt-5 h-12 rounded-xl" style={{ background: "var(--paper)" }}>
+      <div className="fn-track relative mt-5 h-12 rounded-xl" style={{ background: "var(--paper)" }}>
         <div className="absolute inset-x-4 top-1/2 h-px" style={{ background: "var(--line-strong)" }} />
         {Array.from({ length: 8 }).map((_, i) => (
           <span
             key={i}
-            className="fn-dot absolute top-[calc(50%-5px)] h-2.5 w-2.5"
+            className="fn-dot absolute left-4 top-[calc(50%-5px)] h-2.5 w-2.5"
             style={k(i)}
           >
             <span className={`block h-full w-full rounded-full ${i % 3 === 0 ? "" : "fn-drop"}`} style={{ ...k(i), background: i % 3 === 0 ? "var(--orange)" : "var(--ink)" }} />

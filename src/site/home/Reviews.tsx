@@ -44,7 +44,7 @@ export default function Reviews() {
             data-tilt="0" className="spot sheet-in w-[84vw] max-w-[360px] flex-none snap-center rounded-[20px] p-6 md:mb-4 md:w-auto md:max-w-none md:break-inside-avoid"
             style={{ background: "var(--ink-2)", animationDelay: `${i * 50}ms`, border: "1px solid var(--line)" }}
           >
-            <div className="flex gap-0.5" style={{ color: "var(--orange)" }} aria-label="5 out of 5 stars">
+            <div className="flex gap-0.5" style={{ color: "var(--orange)" }} role="img" aria-label="5 out of 5 stars">
               {Array.from({ length: 5 }).map((_, j) => <Star key={j} />)}
             </div>
             <blockquote className="mt-4 text-[17px] leading-relaxed" style={{ color: "#ecE9e1" }}>

@@ -10,7 +10,8 @@ export default function ScrubText({ text, className = "" }: { text: string; clas
     if (words[i].replace(/[^\w*]+$/, "").endsWith("*")) on = false;
   }
   return (
-    <p data-scrub className={`scrub ${className}`} style={{ ["--n" as string]: words.length } as CSSProperties} aria-label={text.replace(/\*/g, "")}>
+    <p data-scrub className={`scrub ${className}`} style={{ ["--n" as string]: words.length } as CSSProperties}>
+      <span className="sr-only">{text.replace(/\*/g, "")}</span>
       <span aria-hidden="true">
         {words.map((raw, i) => {
           const on = flags[i];
