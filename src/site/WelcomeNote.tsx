@@ -100,7 +100,7 @@ export default function WelcomeNote() {
       </div>
       <div className="flex gap-4 px-5 pt-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/team/fahad-400.webp" alt="" width={56} height={70} className="h-[70px] w-14 flex-none rounded-xl object-cover" />
+        <img src="/img/team/fahad-96.webp" alt="" width={56} height={70} className="h-[70px] w-14 flex-none rounded-xl object-cover" />
         <div>
           <p id="welcome-title" className="font-medium leading-snug">Hi, I&apos;m Fahad. I run Babar Tech.</p>
           <p className="mt-1.5 text-[14px] leading-relaxed" style={{ color: "var(--mute)" }}>

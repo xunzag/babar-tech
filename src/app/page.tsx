@@ -35,31 +35,31 @@ export default function Home() {
       <section className="relative overflow-hidden pt-[calc(var(--nav-h)+40px)] sm:pt-[calc(var(--nav-h)+64px)]">
         <Ribbon className="absolute -right-[60%] top-[44%] h-[900px] w-[190%] opacity-90 sm:-right-[20%] sm:w-[130%] lg:inset-x-0 lg:top-0 lg:right-0 lg:h-[1100px] lg:w-full" />
         <div className="wrap relative">
-          <p className="eyebrow" data-reveal>
+          <p className="eyebrow rise">
             <span className="dot-live" /> Top Rated on Upwork · {RECORD.jss} Job Success · {RECORD.rating}★ from {RECORD.reviews} reviews
           </p>
           <div data-hero-out>
-            <Words as="h1" className="display mt-7 sm:mt-9" text="Your next hire | starts *tomorrow.*" />
+            <Words as="h1" auto className="display mt-7 sm:mt-9" text="Your next hire | starts *tomorrow.*" />
           </div>
 
           <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5 lg:pt-4">
-              <p className="lede max-w-[34rem]" data-reveal style={{ ["--d" as string]: 250 }}>
+              <p className="lede rise-t max-w-[34rem]" style={{ ["--d" as string]: 150 }}>
                 Babar Tech Solutions places vetted support reps, assistants, sales callers, coordinators and developers with
                 businesses in the US, UK, Europe and Australia. Matched the same day, working within 24 hours, managed by us.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row" data-reveal style={{ ["--d" as string]: 350 }}>
+              <div className="rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ ["--d" as string]: 250 }}>
                 <a href={SITE.calendly} target="_blank" rel="noopener noreferrer" className="btn btn-orange">
                   Book a free 30-min call <Arrow size={16} className="arr" />
                 </a>
                 <Link href="/services/" className="btn btn-line">See what we do</Link>
               </div>
 
-              <div className="mt-12 flex items-center gap-4" data-reveal style={{ ["--d" as string]: 450 }}>
+              <div className="rise mt-12 flex items-center gap-4" style={{ ["--d" as string]: 350 }}>
                 <div className="flex -space-x-2.5">
                   {TEAM.map((m) => (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img key={m.slug} src={m.photo} alt={m.name} width={40} height={40} className="h-10 w-10 rounded-full object-cover" style={{ boxShadow: "0 0 0 3px var(--paper)" }} />
+                    <img key={m.slug} src={m.photo.replace("-400", "-96")} alt={m.name} width={40} height={40} className="h-10 w-10 rounded-full object-cover" style={{ boxShadow: "0 0 0 3px var(--paper)" }} />
                   ))}
                 </div>
                 <p className="text-[14px] leading-snug" style={{ color: "var(--mute)" }}>
@@ -69,7 +69,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="lg:col-span-7" data-reveal="scale" style={{ ["--d" as string]: 300 }}>
+            <div className="rise lg:col-span-7" style={{ ["--d" as string]: 200 }}>
               <div data-tilt="4">
                 <TodoList />
               </div>
@@ -98,7 +98,7 @@ export default function Home() {
               {[0, 1].map((dup) => (
                 <ul key={dup} className="flex flex-none items-center">
                   {TOOLS.map((r) => (
-                    <li key={r} className="mono flex items-center gap-6 pr-6 text-[13px] uppercase tracking-[0.08em] whitespace-nowrap" style={{ color: "var(--faint)" }}>
+                    <li key={r} className="mono flex items-center gap-6 pr-6 text-[13px] uppercase tracking-[0.08em] whitespace-nowrap" style={{ color: "var(--mute)" }}>
                       {r}
                       <span style={{ color: "var(--line-strong)" }}>/</span>
                     </li>
@@ -287,7 +287,7 @@ export default function Home() {
             </blockquote>
             <figcaption className="mt-8 flex items-center gap-4" data-reveal>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/team/fahad-400.webp" alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
+              <img src="/img/team/fahad-96.webp" alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
               <div className="text-[14px]">
                 <p>Customer service, patient retention in medical supply</p>
                 <p className="mono text-[11px] uppercase tracking-[0.06em]" style={{ color: "var(--faint)" }}>Fahad · 406 hrs · Mar – May 2025</p>

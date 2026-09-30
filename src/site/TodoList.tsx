@@ -8,12 +8,12 @@ import { fmtTime, useNow, useTimeZone } from "./useClock";
    Illustrative: the tasks are typical of each service line, not client data. */
 
 type Who = { name: string; photo: string };
-const RYAN: Who = { name: "Ryan", photo: "/img/team/ryan-400.webp" };
-const RIA: Who = { name: "Ria", photo: "/img/team/ria-400.webp" };
-const IZMA: Who = { name: "Izma", photo: "/img/team/izma-400.webp" };
-const FAHAD: Who = { name: "Fahad", photo: "/img/team/fahad-400.webp" };
-const HOORIA: Who = { name: "Hooria", photo: "/img/team/hooria-400.webp" };
-const SAMRA: Who = { name: "Samra", photo: "/img/team/samra-400.webp" };
+const RYAN: Who = { name: "Ryan", photo: "/img/team/ryan-96.webp" };
+const RIA: Who = { name: "Ria", photo: "/img/team/ria-96.webp" };
+const IZMA: Who = { name: "Izma", photo: "/img/team/izma-96.webp" };
+const FAHAD: Who = { name: "Fahad", photo: "/img/team/fahad-96.webp" };
+const HOORIA: Who = { name: "Hooria", photo: "/img/team/hooria-96.webp" };
+const SAMRA: Who = { name: "Samra", photo: "/img/team/samra-96.webp" };
 
 const TASKS: { text: string; note: string; who: Who }[] = [
   { text: "Answer the refund emails", note: "refunded, customer stayed", who: RYAN },

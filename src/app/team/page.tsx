@@ -6,8 +6,8 @@ import { Star } from "@/site/Icons";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
-  ...pageMeta({ title: "Meet the team · Babar Tech Solutions", description: "Meet the people behind Babar Tech Solutions: founder Fahad Ali and the specialists in customer service, sales, virtual assistance, customer success and operations.", path: "/team/", image: "/og/team.jpg" }),
-  title: "Team",
+  ...pageMeta({ title: "Meet the team · Babar Tech Solutions", description: "Meet founder Fahad Ali and the Babar Tech specialists in customer service, sales, virtual assistance, customer success and operations.", path: "/team/", image: "/og/team.jpg" }),
+  title: "Meet the Team",
 };
 
 export default function TeamPage() {
@@ -82,7 +82,7 @@ export default function TeamPage() {
                   </div>
                   {review && (
                     <figure className="mt-10 self-end rounded-[20px] p-6 lg:col-span-4 lg:mt-0" style={{ background: "var(--card)", border: "1px solid var(--line)" }} data-reveal>
-                      <div className="flex gap-0.5" style={{ color: "var(--orange)" }} aria-label="5 out of 5 stars">
+                      <div className="flex gap-0.5" style={{ color: "var(--orange)" }} role="img" aria-label="5 out of 5 stars">
                         {Array.from({ length: 5 }).map((_, j) => <Star key={j} />)}
                       </div>
                       <blockquote className="mt-3 text-[15px] leading-relaxed">&ldquo;{review.quote}&rdquo;</blockquote>

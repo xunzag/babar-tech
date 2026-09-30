@@ -31,7 +31,7 @@ function countUp(el: HTMLElement) {
 /**
  * One observer for the whole page:
  *  - [data-reveal] and .words get `.is-in` the first time they enter the viewport
- *  - [data-anim] loops get `.is-paused` while offscreen so they cost nothing
+ *  - [data-anim] loops get `.is-on` only while on screen, so offscreen loops cost nothing
  */
 export default function Motion() {
   const pathname = usePathname();
@@ -52,7 +52,7 @@ export default function Motion() {
     );
     const pause = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) e.target.classList.toggle("is-paused", !e.isIntersecting);
+        for (const e of entries) e.target.classList.toggle("is-on", e.isIntersecting);
       },
       { rootMargin: "80px" },
     );

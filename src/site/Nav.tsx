@@ -79,7 +79,7 @@ export default function Nav() {
         }}
       >
         <nav className="wrap flex h-[var(--nav-h)] items-center gap-6" aria-label="Primary">
-          <Link href="/" className="flex items-center gap-2.5 font-medium tracking-tight" aria-label="Babar Tech Solutions, home">
+          <Link href="/" className="flex items-center gap-2.5 font-medium tracking-tight">
             <Mark />
             <span className="whitespace-nowrap text-[17px] leading-none">
               Babar Tech<span className="hidden sm:inline" style={{ color: "var(--faint)" }}> Solutions</span>
