@@ -1,0 +1,19 @@
+{
+  "name": "babar-tech-reel",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Reel out/babar-tech-reel.mp4",
+    "still": "remotion still src/index.ts Reel out/cover.png --frame=1000",
+    "music": "python3 scripts/music.py"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.532",
+    "@remotion/fonts": "^4.0.532",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.532",
+    "typescript": "^7.0.2"
+  }
+}
