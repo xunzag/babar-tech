@@ -1,20 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { SERVICES, SITE } from "./content";
 import { Arrow, Check } from "./Icons";
 import { useTimeZone } from "./useClock";
 
 const COMMIT = ["Part-time", "Full-time", "One-off project", "Not sure yet"];
 
+const noop = () => () => {};
+
+/** A team draft sent from the services page builder (?roles=A|B&hours=20&start=…&tz=…). */
+function parseDraft(search: string) {
+  const q = new URLSearchParams(search);
+  const names = SERVICES.map((s) => s.name);
+  const roles = (q.get("roles") || "").split("|").filter((r) => names.includes(r));
+  if (!roles.length) return null;
+  const hours = Number(q.get("hours")) || 20;
+  const start = q.get("start") || "";
+  const tz = q.get("tz") || "";
+  return {
+    roles,
+    commit: hours >= 40 ? "Full-time" : "Part-time",
+    message: [
+      "Team draft from your services page:",
+      ...roles.map((r) => `• ${r}, ${hours} hrs/week`),
+      ...(start ? [`Start: ${start}`] : []),
+      ...(tz ? [`My time zone: ${tz}`] : []),
+      "",
+      "A bit about what we need: ",
+    ].join("\n"),
+  };
+}
+
 export default function ContactForm() {
-  const [picked, setPicked] = useState<string[]>([]);
-  const [commit, setCommit] = useState("");
+  const search = useSyncExternalStore(noop, () => window.location.search, () => "");
+  const draft = useMemo(() => parseDraft(search), [search]);
+  // The draft supplies defaults until the visitor changes something
+  const [pickedState, setPicked] = useState<string[] | null>(null);
+  const [commitState, setCommit] = useState<string | null>(null);
+  const picked = pickedState ?? draft?.roles ?? [];
+  const commit = commitState ?? draft?.commit ?? "";
   const tz = useTimeZone() ?? "";
   const [state, setState] = useState<"idle" | "sending" | "sent" | "mail">("idle");
 
-  const toggle = (s: string) => setPicked((p) => (p.includes(s) ? p.filter((x) => x !== s) : [...p, s]));
+  const toggle = (s: string) => setPicked(picked.includes(s) ? picked.filter((x) => x !== s) : [...picked, s]);
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -62,6 +92,12 @@ export default function ContactForm() {
   return (
     <form onSubmit={submit} className="card p-6 sm:p-10">
       <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
+      {draft && (
+        <p className="sheet-in mb-8 flex items-center gap-3 rounded-2xl px-4 py-3 text-[14px]" style={{ background: "rgb(242 112 31 / .1)", color: "var(--ink)" }} role="status">
+          <Check size={16} className="flex-none" style={{ color: "var(--orange)" }} />
+          Your team draft is filled in below. Add a line about the work and send.
+        </p>
+      )}
 
       <fieldset>
         <legend className="font-medium">What do you need help with?</legend>
@@ -118,9 +154,11 @@ export default function ContactForm() {
         <label className="block text-[14px] font-medium sm:col-span-2">
           What&apos;s the job?
           <textarea
+            key={search}
             name="message"
             required
-            rows={5}
+            rows={draft ? 8 : 5}
+            defaultValue={draft?.message}
             placeholder="e.g. We get ~200 support emails a day and need someone covering 9–5 Eastern in Gorgias."
             className={`${field} resize-y`}
             style={fieldStyle}

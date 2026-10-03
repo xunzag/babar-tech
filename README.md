@@ -17,7 +17,10 @@ npm run lint
 | `src/app/*` | Routes: `/`, `/services`, `/team`, `/contact`, `/privacy`, `/cookies`, 404 |
 | `src/site/TodoList.tsx` | Hero to-do list the team ticks off, with local/team clocks |
 | `src/site/Viz.tsx` | Animated service scenes (pure CSS) |
-| `src/site/home/*` | Home-only interactive sections (service stage, hours tool, process, reviews) |
+| `src/site/home/*` | Home scroll scenes: `Dive` (fly through the logo), `HServices` (pinned sideways services), `Process` (stacking cards), hours tool, reviews |
+| `src/site/services/*` | Services page: pinned `Chapter`s with scroll-driven `Demos`, and the `Builder` ("build your team" → prefilled contact brief) |
+| `src/site/Curtain.tsx` | Orange logo curtain between pages + first-visit intro (CSS-only, `html.intro`) |
+| `src/site/gsap.ts` | Lazy GSAP/ScrollTrigger loader, `useGsap` and `useScrollProgress` hooks |
 | `src/site/CookieConsent.tsx`, `consent.ts`, `Analytics.tsx` | Consent banner/settings and consent-gated analytics |
 | `src/site/WelcomeNote.tsx` | One-time note for first-time visitors |
 | `src/app/globals.css` | Design tokens, components and all keyframe animations |
@@ -25,7 +28,8 @@ npm run lint
 
 ## Motion
 
-All animation is CSS + one `IntersectionObserver` (`src/site/Motion.tsx`). Elements with `data-reveal` fade up on entry,
+Reveals and loops are CSS + one `IntersectionObserver` (`src/site/Motion.tsx`); pinned/scrubbed scenes use GSAP
+ScrollTrigger, loaded lazily after first paint (`src/site/gsap.ts`), with Lenis smooth scrolling on desktop. Elements with `data-reveal` fade up on entry,
 `<Words>` headlines reveal word by word, and anything marked `data-anim` is paused while offscreen. Everything respects
 `prefers-reduced-motion`, and content is visible without JavaScript.
 

@@ -36,6 +36,7 @@ export default function ScrollFx() {
         })
       : null;
     lenisRef.current = lenis;
+    (window as unknown as { __lenis?: Lenis | null }).__lenis = lenis;
 
     type Item = { el: HTMLElement; kind: "p" | "d" | "e" | "s"; f: number };
     let items: Item[] = [];
