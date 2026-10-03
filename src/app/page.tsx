@@ -4,7 +4,8 @@ import { FAQ as FAQS, RECORD, SITE, TEAM } from "@/site/content";
 import HoursTool from "@/site/home/HoursTool";
 import Process from "@/site/home/Process";
 import Reviews from "@/site/home/Reviews";
-import ServiceStage from "@/site/home/ServiceStage";
+import Dive from "@/site/home/Dive";
+import HServices from "@/site/home/HServices";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
 import TodoList from "@/site/TodoList";
 import Ribbon from "@/site/Ribbon";
@@ -140,21 +141,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────────── Services ───────────── */}
-      <section id="services" className="pb-12 sm:pb-24">
-        <div className="wrap">
-          <div className="grid gap-8 pb-12 lg:grid-cols-12 lg:pb-8">
-            <div className="lg:col-span-7">
-              <Eyebrow n="01">What we do</Eyebrow>
-              <Words className="h2 mt-6" text="Six kinds of help. | One team *accountable.*" />
-            </div>
-            <p className="lede self-end lg:col-span-5" data-reveal>
-              Most clients start with one role and add a second within a few months. Everyone reports to the same place, so nothing falls between desks.
-            </p>
-          </div>
-          <ServiceStage />
-        </div>
-      </section>
+      {/* ───────────── Dive through the mark → Services (pinned, sideways) ───────────── */}
+      <Dive />
+      <HServices />
 
       {/* ───────────── Hours ───────────── */}
       <section id="hours" className="py-24 sm:py-32" style={{ background: "var(--paper-2)" }} data-expand>
