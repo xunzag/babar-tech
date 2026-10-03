@@ -117,7 +117,7 @@ export default function Home() {
             {[
               { v: RECORD.jss, l: "Job Success Score on Upwork" },
               { v: `${RECORD.rating}`, l: `Average rating, all ${RECORD.reviews} reviews five stars` },
-              { v: RECORD.hours, l: "Hours logged on reviewed contracts" },
+              { v: RECORD.hours, l: "Hours delivered for clients" },
               { v: "24h", l: "From first call to first task" },
             ].map((s, i) => (
               <div key={s.l} className="pr-6 lg:border-l lg:pl-8 lg:first:border-l-0 lg:first:pl-0" style={{ borderColor: "var(--line)", ["--d" as string]: i * 90 }} data-reveal>

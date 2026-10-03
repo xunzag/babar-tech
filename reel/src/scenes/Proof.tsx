@@ -5,7 +5,7 @@ import { BEAT, C, F, easeInOut, pop, prog } from "../theme";
 const STATS = [
   { to: 100, fmt: (v: number) => `${Math.round(v)}%`, label: "Job Success Score" },
   { to: 5, fmt: (v: number) => v.toFixed(1), label: "Rating · all 15 reviews 5★" },
-  { to: 1500, fmt: (v: number) => `${Math.round(v).toLocaleString("en-US")}+`, label: "Hours on reviewed contracts" },
+  { to: 4000, fmt: (v: number) => `${Math.round(v).toLocaleString("en-US")}+`, label: "Hours delivered for clients" },
   { to: 24, fmt: (v: number) => `${Math.round(v)}h`, label: "From first call to first task" },
 ];
 
