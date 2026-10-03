@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Legacy components kept for reference, not part of the build
     "src/components/**",
     "src/lib/**",
+    // Remotion video project, built separately
+    "reel/**",
   ]),
 ]);
 

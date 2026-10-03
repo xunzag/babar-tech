@@ -299,12 +299,12 @@ export const REVIEWS: Review[] = [
   },
 ];
 
-/* Totals from the public review record (15 reviews, including two not quoted above). */
+/* Reviews/rating/JSS come from the public Upwork record (15 reviews); hours are the agency total. */
 export const RECORD = {
   reviews: 15,
   rating: "5.0",
   jss: "100%",
-  hours: "1,500+",
+  hours: "4,000+", // total hours delivered for clients (agency figure, Oct 2026)
   badge: "Top Rated",
 };
 
