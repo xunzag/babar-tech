@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Caveat, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Analytics from "@/site/Analytics";
+import Curtain from "@/site/Curtain";
 import CookieConsent from "@/site/CookieConsent";
 import { SERVICES, SITE } from "@/site/content";
 import Footer from "@/site/Footer";
@@ -91,7 +92,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{
             // If the app bundle never starts (old browser, blocked script), un-hide everything after 3s
             __html:
-              "var d=document.documentElement;d.classList.add('js');setTimeout(function(){if(!d.hasAttribute('data-ready'))d.classList.remove('js')},3000)",
+              "var d=document.documentElement;d.classList.add('js');setTimeout(function(){if(!d.hasAttribute('data-ready'))d.classList.remove('js')},3000);" +
+              // First visit this session: play the logo intro (CSS only), unless motion is reduced
+              "try{if(!sessionStorage.getItem('bts-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('intro');sessionStorage.setItem('bts-intro','1');setTimeout(function(){d.classList.remove('intro')},2000)}}catch(e){}",
           }}
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -105,6 +108,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <CookieConsent />
         <WelcomeNote />
         <Analytics />
+        <Curtain />
       </body>
     </html>
   );
