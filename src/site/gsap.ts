@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
+
+// Layout-effect cleanup runs before React removes DOM nodes, so pinned elements are
+// unwrapped from GSAP's pin-spacers before React tries to detach them.
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 type G = typeof import("gsap").gsap;
 type ST = typeof import("gsap/ScrollTrigger").ScrollTrigger;
@@ -25,7 +29,7 @@ export function loadGsap() {
  * `setup` receives the kit plus reduced-motion and mobile flags.
  */
 export function useGsap(scope: RefObject<HTMLElement | null>, setup: (kit: GsapKit) => void, deps: unknown[] = []) {
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     let cancelled = false;
     let revert: (() => void) | undefined;
     loadGsap().then(({ gsap, ScrollTrigger }) => {
@@ -41,7 +45,6 @@ export function useGsap(scope: RefObject<HTMLElement | null>, setup: (kit: GsapK
       cancelled = true;
       revert?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
 

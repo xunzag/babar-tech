@@ -5,6 +5,7 @@ import { SERVICES, SITE } from "./content";
 import { openCookieSettings } from "./consent";
 import { Facebook, Instagram, LinkedIn, Upwork } from "./Icons";
 import { Mark } from "./Nav";
+import Photo from "./Photo";
 
 const COLS = [
   { title: "Services", links: SERVICES.map((s) => ({ href: `/services/#${s.id}`, label: s.name })) },
@@ -87,14 +88,14 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Oversized wordmark, cropped by the page edge */}
-      <div aria-hidden className="pointer-events-none select-none overflow-hidden">
-        <p
-          className="display whitespace-nowrap text-center leading-[0.75]"
-          style={{ fontSize: "clamp(5rem, 21vw, 21rem)", color: "#1c1f24", marginBottom: "-0.12em" }}
-          data-drift="-0.18"
-        >
-          Babar Tech
+      {/* End of the day: the list is done, the lamp is still on */}
+      <div aria-hidden className="pointer-events-none relative select-none overflow-hidden">
+        <div className="aspect-[16/9] sm:aspect-[3/1]">
+          <Photo name="footer-night" alt="" sizes="100vw" className="h-full w-full object-cover object-[72%_60%]" />
+        </div>
+        <div className="absolute inset-x-0 top-0 h-2/3" style={{ background: "linear-gradient(var(--ink), rgb(15 17 20 / .4) 55%, transparent)" }} />
+        <p className="hand absolute left-[6%] bottom-[12%] text-[clamp(20px,2.4vw,34px)]" style={{ color: "#f5c58f", textShadow: "0 2px 18px rgb(0 0 0 / .6)" }}>
+          all done for today ✓
         </p>
       </div>
     </footer>

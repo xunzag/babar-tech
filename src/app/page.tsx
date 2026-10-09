@@ -8,6 +8,7 @@ import Dive from "@/site/home/Dive";
 import HServices from "@/site/home/HServices";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
 import TodoList from "@/site/TodoList";
+import Photo from "@/site/Photo";
 import Ribbon from "@/site/Ribbon";
 import ScrubText from "@/site/ScrubText";
 import Words from "@/site/Words";
@@ -34,6 +35,12 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       {/* ───────────── Hero ───────────── */}
       <section className="relative overflow-hidden pt-[calc(var(--nav-h)+40px)] sm:pt-[calc(var(--nav-h)+64px)]">
+        {/* Morning-desk photo, faded into paper on the headline side and at the bottom */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <Photo name="hero-desk" alt="" eager sizes="100vw" className="h-full w-full object-cover object-[78%_30%] opacity-80" />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, var(--paper) 0%, rgb(242 240 235 / .85) 30%, rgb(242 240 235 / .15) 70%, transparent 100%)" }} />
+          <div className="absolute inset-x-0 bottom-0 h-1/3" style={{ background: "linear-gradient(transparent, var(--paper))" }} />
+        </div>
         <Ribbon className="absolute -right-[60%] top-[44%] h-[900px] w-[190%] opacity-90 sm:-right-[20%] sm:w-[130%] lg:inset-x-0 lg:top-0 lg:right-0 lg:h-[1100px] lg:w-full" />
         <div className="wrap relative">
           <p className="eyebrow rise">
@@ -147,6 +154,18 @@ export default function Home() {
 
       {/* ───────────── Hours ───────────── */}
       <section id="hours" className="py-24 sm:py-32" style={{ background: "var(--paper-2)" }} data-expand>
+        {/* Same moment, two desks: New York morning / Pakistan evening */}
+        <div className="wrap mb-14 sm:mb-20" data-reveal="scale">
+          <figure className="relative overflow-hidden rounded-[24px] sm:rounded-[32px]" style={{ aspectRatio: "21 / 9" }}>
+            <div className="absolute inset-[-6%_0]" data-parallax="0.06">
+              <Photo name="hours-split" alt="A desk in New York in the morning beside a desk in Pakistan at night, at the same moment" sizes="(min-width: 1320px) 1240px, 92vw" className="h-full w-full object-cover" />
+            </div>
+            <figcaption className="absolute inset-x-0 bottom-0 flex justify-between p-3 sm:p-5">
+              <span className="rounded-full px-3 py-1.5 mono text-[11px] uppercase tracking-[0.08em] backdrop-blur" style={{ background: "rgb(242 240 235 / .8)", color: "var(--ink)" }}>New York · 09:00</span>
+              <span className="rounded-full px-3 py-1.5 mono text-[11px] uppercase tracking-[0.08em] backdrop-blur" style={{ background: "rgb(15 17 20 / .7)", color: "var(--cream)" }}>Pakistan · 19:00</span>
+            </figcaption>
+          </figure>
+        </div>
         <div className="wrap grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Eyebrow n="02">Time zones</Eyebrow>
