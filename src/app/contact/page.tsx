@@ -4,6 +4,7 @@ import { Eyebrow } from "@/site/Blocks";
 import ContactForm from "@/site/ContactForm";
 import { SITE } from "@/site/content";
 import { ArrowUR, Calendar, Clock, Mail } from "@/site/Icons";
+import Photo from "@/site/Photo";
 import Words from "@/site/Words";
 
 export const metadata: Metadata = {
@@ -22,7 +23,11 @@ export default function ContactPage() {
             A few lines is plenty. Fahad reads every brief himself and replies with who fits, when they can start and what it costs.
           </p>
 
-          <ul className="mt-12 space-y-px overflow-hidden rounded-[20px]" data-reveal>
+          <figure className="mt-10 overflow-hidden rounded-[24px]" style={{ aspectRatio: "4 / 3" }} data-reveal="scale">
+            <Photo name="contact-note" alt="A hand about to write a list on a blank notepad" sizes="(min-width: 1024px) 36vw, 92vw" className="h-full w-full object-cover" />
+          </figure>
+
+          <ul className="mt-6 space-y-px overflow-hidden rounded-[20px]" data-reveal>
             {[
               { Icon: Calendar, t: "Book a 30-minute call", s: "Pick a time that suits you", href: SITE.calendly, ext: true },
               { Icon: Mail, t: SITE.email, s: "For anything at all", href: `mailto:${SITE.email}` },

@@ -529,8 +529,9 @@ html.lenis, html.lenis body { height: auto; }
 /* lift */
 .curtain[data-phase="out"] .curtain__panel { transform: translate3d(0, -102%, 0); border-radius: 0 0 50% 50% / 0 0 12% 12%; transition: transform 0.9s var(--ease-io), border-radius 0.9s var(--ease-io); }
 .curtain[data-phase="out"] .curtain__brand { opacity: 0; transform: translateY(-40px) scale(0.9); transition: opacity 0.3s ease, transform 0.5s var(--ease-io); }
-/* idle: snap back below the screen with no transition */
+/* idle: snap back below the screen with no transition, and fully hidden (except during the intro) */
 .curtain[data-phase="idle"] .curtain__panel, .curtain[data-phase="idle"] .curtain__brand { transition: none; }
+:root:not(.intro) .curtain[data-phase="idle"] .curtain__panel { visibility: hidden; }
 
 @keyframes mark-in { from { transform: scale(0.5) rotate(-120deg); opacity: 0; } to { transform: none; opacity: 0.92; } }
 

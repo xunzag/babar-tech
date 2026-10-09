@@ -53,6 +53,8 @@ export default function HServices() {
   });
 
   return (
+    // Stable wrapper: GSAP inserts a pin-spacer around the section, so React must own the outer node
+    <div>
     <section ref={root} id="services" className="relative overflow-hidden" style={{ background: "var(--orange)", color: "var(--ink)" }}>
       <div className="flex min-h-[100svh] flex-col justify-center py-16 lg:h-[100svh] lg:pt-[calc(var(--nav-h)+8px)] lg:pb-6">
         {/* header row */}
@@ -106,5 +108,6 @@ export default function HServices() {
         </div>
       </div>
     </section>
+    </div>
   );
 }
