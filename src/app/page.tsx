@@ -7,7 +7,7 @@ import Reviews from "@/site/home/Reviews";
 import LogoScene from "@/site/home/LogoScene";
 import ServicesFlow from "@/site/home/ServicesFlow";
 import TeamDepth from "@/site/home/TeamDepth";
-import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
+import { Arrow, Check, Close } from "@/site/Icons";
 import TodoList from "@/site/TodoList";
 import Photo from "@/site/Photo";
 import Ribbon from "@/site/Ribbon";
@@ -270,47 +270,7 @@ export default function Home() {
       </section>
 
       {/* ───────────── Reviews ───────────── */}
-      <section id="reviews" className="ink relative py-24 sm:py-36" data-expand>
-        <div className="wrap">
-          <div className="grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <Eyebrow n="06">Client reviews</Eyebrow>
-              <Words className="h2 mt-6" text={`${RECORD.reviews} reviews. | Every one *five stars.*`} />
-            </div>
-            <div className="self-end lg:col-span-5" data-reveal>
-              <p style={{ color: "var(--mute)" }}>
-                Quoted word for word from our public Upwork profile, where you can check every one of them.
-              </p>
-              <a href={SITE.upwork} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1.5 font-medium">
-                <span className="link-u">Verify on Upwork</span> <ArrowUR size={16} />
-              </a>
-            </div>
-          </div>
-
-          {/* Featured */}
-          <figure className="mt-16 border-y py-12 sm:py-16" style={{ borderColor: "var(--line)" }}>
-            <blockquote>
-              <Words
-                as="p"
-                className="max-w-5xl text-[clamp(1.6rem,3.6vw,3.2rem)] font-medium leading-[1.1] tracking-[-0.03em]"
-                text="“He helped our business tremendously by retaining our customers. His retention rate was close to *98%.*”"
-              />
-            </blockquote>
-            <figcaption className="mt-8 flex items-center gap-4" data-reveal>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/team/fahad-96.webp" alt="" width={44} height={44} className="h-11 w-11 rounded-full object-cover" />
-              <div className="text-[14px]">
-                <p>Customer service, patient retention in medical supply</p>
-                <p className="mono text-[11px] uppercase tracking-[0.06em]" style={{ color: "var(--faint)" }}>Fahad · 406 hrs · Mar – May 2025</p>
-              </div>
-            </figcaption>
-          </figure>
-
-          <div className="mt-14">
-            <Reviews />
-          </div>
-        </div>
-      </section>
+      <Reviews />
 
       <FAQ n="07" />
       <CTA />
