@@ -7,20 +7,21 @@ import { Check } from "../Icons";
 import Demo from "./Demos";
 
 /**
- * One service as a pinned, full-screen chapter. The demo on the right is driven by
- * how far you've scrolled through the chapter; the copy on the left stays put.
+ * One service as a full-screen chapter that scrolls freely (no pinning). The demo plays
+ * out as the chapter crosses the screen and swings up from a 3D tilt as it arrives.
  */
 export default function Chapter({ s, index, total }: { s: Service; index: number; total: number }) {
   const ref = useRef<HTMLElement>(null);
-  const p = useScrollProgress(ref);
+  const p = useScrollProgress(ref, "top 85%", "center 40%");
+  const tilt = 1 - Math.min(1, p * 2.2);
   const dark = index % 2 === 1;
   const fg = dark ? "var(--cream)" : "var(--ink)";
   const sub = dark ? "#a3a39d" : "var(--mute)";
   const line = dark ? "rgb(255 255 255 / .1)" : "var(--line)";
 
   return (
-    <section ref={ref} id={s.id} data-tall className="relative h-[230vh] lg:h-[260vh]" style={{ background: dark ? "var(--ink)" : "var(--paper)", color: fg }} aria-labelledby={`${s.id}-title`}>
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-[var(--nav-h)]">
+    <section ref={ref} id={s.id} className="relative overflow-hidden" style={{ background: dark ? "var(--ink)" : "var(--paper)", color: fg }} aria-labelledby={`${s.id}-title`}>
+      <div className="flex min-h-[100svh] flex-col justify-center py-20 sm:py-28">
         <div className="wrap grid w-full items-center gap-6 lg:grid-cols-12 lg:gap-14">
           {/* copy */}
           <div className="min-w-0 lg:col-span-5">
@@ -61,7 +62,14 @@ export default function Chapter({ s, index, total }: { s: Service; index: number
           </div>
 
           {/* demo */}
-          <div className="h-[min(56svh,520px)] min-w-0 lg:col-span-7 lg:h-[min(72svh,600px)]" style={{ transform: `translateY(${(1 - Math.min(1, p * 4)) * 40}px)`, transition: "transform .3s linear" }}>
+          <div
+            className="h-[min(60svh,520px)] min-w-0 lg:col-span-7 lg:h-[min(72svh,600px)]"
+            style={{
+              transform: `perspective(1400px) rotateX(${(tilt * 18).toFixed(2)}deg) rotateY(${(tilt * (dark ? 10 : -10)).toFixed(2)}deg) translateY(${(tilt * 80).toFixed(1)}px)`,
+              transformOrigin: "50% 100%",
+              transition: "transform .3s linear",
+            }}
+          >
             <Demo kind={s.viz} p={p} />
           </div>
         </div>

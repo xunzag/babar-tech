@@ -74,29 +74,33 @@ function Art({ i, sub, line }: { i: number; sub: string; line: string }) {
   );
 }
 
-/** "How it works" as stacking cards: each scales back and dims as the next slides over it. */
+/** "How it works" as a free-scrolling run of cards: each swings up from a 3D tilt as it arrives. */
 export default function Process() {
   const root = useRef<HTMLOListElement>(null);
 
-  useGsap(root, ({ gsap, reduced }) => {
+  useGsap(root, ({ gsap, reduced, mobile }) => {
     if (reduced) return;
-    const q = gsap.utils.selector(root);
-    const cards = q("[data-stack]");
-    cards.forEach((card, i) => {
-      if (i === cards.length - 1) return;
-      const st = { trigger: cards[i + 1], start: "top bottom", end: "top top+=160", scrub: true };
-      gsap.to(card.querySelector("[data-stack-inner]"), { scale: 0.92 + i * 0.015, ease: "none", scrollTrigger: st });
-      gsap.to(card.querySelector("[data-shade]"), { opacity: 0.45, ease: "none", scrollTrigger: st });
+    const k = mobile ? 0.6 : 1;
+    gsap.utils.toArray<HTMLElement>("[data-stack]", root.current).forEach((card, i) => {
+      const side = i % 2 ? -1 : 1;
+      const inner = card.querySelector("[data-stack-inner]");
+      const art = card.querySelector("[data-stack-art]");
+      gsap.fromTo(
+        inner,
+        { rotationX: 22 * k, rotationY: 6 * side * k, y: 120 * k, scale: 0.94 },
+        { rotationX: 0, rotationY: 0, y: 0, scale: 1, ease: "power2.out", scrollTrigger: { trigger: card, start: "top bottom", end: "top 40%", scrub: 0.6 } },
+      );
+      gsap.fromTo(art, { y: 90 * k }, { y: -50 * k, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 0.6 } });
     });
   });
 
   return (
-    <ol ref={root} className="relative">
+    <ol ref={root} className="relative space-y-6 sm:space-y-10">
       {STEPS.map((s, i) => {
         const t = TONES[i];
         return (
-          <li key={s.when} data-stack className="sticky pb-6" style={{ top: `calc(var(--nav-h) + 24px + ${i * 22}px)` }}>
-            <div data-stack-inner className="relative origin-top overflow-hidden rounded-[32px]" style={{ background: t.bg, color: t.fg, boxShadow: "0 -1px 0 rgb(15 17 20 / .04), 0 40px 80px -50px rgb(15 17 20 / .5)" }}>
+          <li key={s.when} data-stack style={{ perspective: "1400px" }}>
+            <div data-stack-inner className="relative origin-bottom overflow-hidden rounded-[32px] will-change-transform" style={{ background: t.bg, color: t.fg, boxShadow: "0 -1px 0 rgb(15 17 20 / .04), 0 40px 80px -50px rgb(15 17 20 / .5)" }}>
               <div className="grid min-h-[min(68vh,560px)] gap-8 p-7 sm:p-10 lg:grid-cols-12 lg:p-14">
                 <div className="flex flex-col lg:col-span-7">
                   <div className="flex items-center gap-4">
@@ -107,11 +111,10 @@ export default function Process() {
                   <h3 className="h2 mt-auto pt-6">{s.title}</h3>
                   <p className="mt-4 max-w-md text-[17px] leading-relaxed" style={{ color: t.sub }}>{s.body}</p>
                 </div>
-                <div className="self-end lg:col-span-5">
+                <div data-stack-art className="self-end lg:col-span-5">
                   <Art i={i} sub={t.sub} line={t.line} />
                 </div>
               </div>
-              <div data-shade className="pointer-events-none absolute inset-0 bg-black opacity-0" />
             </div>
           </li>
         );

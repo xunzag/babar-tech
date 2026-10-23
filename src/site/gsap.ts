@@ -49,10 +49,10 @@ export function useGsap(scope: RefObject<HTMLElement | null>, setup: (kit: GsapK
 }
 
 /**
- * 0→1 progress of `ref` scrolling through the viewport (top hits top → bottom hits bottom),
+ * 0→1 progress of `ref` scrolling through the viewport (by default: top hits top → bottom hits bottom),
  * quantised to 1% so React re-renders at most ~100 times per pass. Reduced motion: always 1.
  */
-export function useScrollProgress(ref: RefObject<HTMLElement | null>) {
+export function useScrollProgress(ref: RefObject<HTMLElement | null>, start = "top top", end = "bottom bottom") {
   const [p, setP] = useState(0);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -65,8 +65,8 @@ export function useScrollProgress(ref: RefObject<HTMLElement | null>) {
       if (cancelled || !ref.current) return;
       const st = ScrollTrigger.create({
         trigger: ref.current,
-        start: "top top",
-        end: "bottom bottom",
+        start,
+        end,
         onUpdate: (s) => setP(Math.round(s.progress * 100) / 100),
       });
       kill = () => st.kill();
@@ -75,6 +75,6 @@ export function useScrollProgress(ref: RefObject<HTMLElement | null>) {
       cancelled = true;
       kill?.();
     };
-  }, [ref]);
+  }, [ref, start, end]);
   return p;
 }

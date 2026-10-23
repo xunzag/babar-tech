@@ -4,8 +4,9 @@ import { FAQ as FAQS, RECORD, SITE, TEAM } from "@/site/content";
 import HoursTool from "@/site/home/HoursTool";
 import Process from "@/site/home/Process";
 import Reviews from "@/site/home/Reviews";
-import Dive from "@/site/home/Dive";
-import HServices from "@/site/home/HServices";
+import LogoScene from "@/site/home/LogoScene";
+import ServicesFlow from "@/site/home/ServicesFlow";
+import TeamDepth from "@/site/home/TeamDepth";
 import { Arrow, ArrowUR, Check, Close } from "@/site/Icons";
 import TodoList from "@/site/TodoList";
 import Photo from "@/site/Photo";
@@ -148,9 +149,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────────── Dive through the mark → Services (pinned, sideways) ───────────── */}
-      <Dive />
-      <HServices />
+      {/* ───────────── The mark assembles → Services (free scroll, no pinning) ───────────── */}
+      <LogoScene />
+      <ServicesFlow />
 
       {/* ───────────── Hours ───────────── */}
       <section id="hours" className="py-24 sm:py-32" style={{ background: "var(--paper-2)" }} data-expand>
@@ -248,6 +249,8 @@ export default function Home() {
               Meet the team <Arrow size={16} className="arr" />
             </Link>
           </div>
+
+          <TeamDepth />
 
           <ul className="no-scrollbar -mx-[var(--gutter)] mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-2 lg:mx-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:px-0">
             {TEAM.map((m, i) => (
