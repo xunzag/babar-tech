@@ -8,18 +8,20 @@ import { useGsap } from "../gsap";
 const CUTOUTS: Record<string, { w: number; h: number }> = {
   fahad: { w: 393, h: 389 },
   hooria: { w: 431, h: 504 },
+  izma: { w: 281, h: 400 },
   ria: { w: 384, h: 389 },
+  ryan: { w: 287, h: 380 },
   samra: { w: 290, h: 400 },
 };
 
 /* Left-to-right lineup: x is the centre (% of the stage), h the height, d the depth (1 = front). */
 const SLOTS: { slug: string; x: number; h: number; d: number }[] = [
-  { slug: "izma", x: 10, h: 70, d: 0.4 },
+  { slug: "izma", x: 8, h: 72, d: 0.4 },
   { slug: "ria", x: 26, h: 80, d: 0.65 },
   { slug: "fahad", x: 43, h: 96, d: 1 },
   { slug: "hooria", x: 59, h: 92, d: 0.9 },
-  { slug: "ryan", x: 75, h: 82, d: 0.65 },
-  { slug: "samra", x: 90, h: 72, d: 0.4 },
+  { slug: "ryan", x: 78, h: 84, d: 0.7 },
+  { slug: "samra", x: 93, h: 72, d: 0.4 },
 ];
 
 /** Shown only once every team member has a cutout, so nobody is left out of the group shot. */
