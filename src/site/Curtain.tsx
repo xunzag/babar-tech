@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 type Phase = "idle" | "in" | "out";
 type LenisLike = { stop: () => void; start: () => void };
 
-const COVER_MS = 650; // panel rises over the page
-const REVEAL_MS = 900; // panel lifts away
+const COVER_MS = 520; // doors close and the mark snaps together
+const REVEAL_MS = 700; // the mark splits and the doors open
 
 function lenis() {
   return (window as unknown as { __lenis?: LenisLike }).__lenis;
@@ -28,7 +28,7 @@ function target(e: MouseEvent): string | null {
 }
 
 /**
- * Orange page curtain with the Babar Tech mark.
+ * Page curtain: charcoal doors close while the mark's three pieces snap together, then open onto the new page.
  * First visit: a CSS-only intro (html.intro, set by an inline script) so it plays before hydration.
  * Page changes: cover → navigate → lift.
  */
@@ -78,11 +78,16 @@ export default function Curtain() {
 
   return (
     <div className="curtain" data-phase={phase} aria-hidden="true">
-      <div className="curtain__panel" />
+      <div className="curtain__half curtain__half--t" />
+      <div className="curtain__half curtain__half--b" />
       <div className="curtain__brand">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="curtain__mark" src="/img/mark-3d.webp" alt="" width={704} height={720} />
-        <span className="curtain__word">Babar Tech</span>
+        <div className="curtain__logo">
+          {["top", "band", "bottom"].map((p) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={p} className={`curtain__piece curtain__piece--${p}`} src={`/img/mark/${p}.webp`} alt="" width={704} height={720} />
+          ))}
+        </div>
+        <span className="curtain__word">Babar Tech <span>Solutions</span></span>
       </div>
     </div>
   );
