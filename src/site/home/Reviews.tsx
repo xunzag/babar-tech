@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { REVIEWS, type VizKind } from "../content";
+import { useState, type CSSProperties } from "react";
+import { REVIEWS, TEAM, type VizKind } from "../content";
 import { Star } from "../Icons";
 
 const FILTERS: { k: VizKind | "all"; label: string }[] = [
@@ -13,15 +13,28 @@ const FILTERS: { k: VizKind | "all"; label: string }[] = [
   { k: "dev", label: "Development" },
 ];
 
+/* Paper stocks the notes are written on, cycled so neighbours never match */
+const PAPERS = [
+  { bg: "#fbfaf6", fg: "var(--ink)", sub: "#6b6e75", tape: "rgb(242 112 31 / .55)", stamp: "var(--orange-ink)" },
+  { bg: "#f6dcc6", fg: "var(--ink)", sub: "#7a5a44", tape: "rgb(255 255 255 / .55)", stamp: "#a94b0b" },
+  { bg: "#e9e5db", fg: "var(--ink)", sub: "#6b6e75", tape: "rgb(35 80 224 / .35)", stamp: "#2350e0" },
+  { bg: "#dbe3fb", fg: "var(--ink)", sub: "#4a5577", tape: "rgb(255 255 255 / .6)", stamp: "#2350e0" },
+];
+const TILT = [-2.6, 1.8, -1.2, 2.4, -1.9, 1.1, -2.2, 2.8];
+const DEPTH = ["0.05", "-0.04", "0.09", "-0.02", "0.07", "-0.06"];
+
+const match = (f: VizKind | "all", s: VizKind) => f === "all" || s === f || (f === "ops" && s === "success");
+
+/** Client reviews as a wall of thank-you notes: taped up at angles, at different depths, each signed by who earned it. */
 export default function Reviews() {
   const [f, setF] = useState<VizKind | "all">("all");
-  const list = REVIEWS.filter((r) => f === "all" || r.service === f || (f === "ops" && r.service === "success"));
+  const list = REVIEWS.filter((r) => match(f, r.service));
 
   return (
     <>
       <div className="no-scrollbar -mx-[var(--gutter)] flex gap-2 overflow-x-auto px-[var(--gutter)] pb-1" role="tablist" aria-label="Filter reviews by service">
         {FILTERS.map((x) => {
-          const n = x.k === "all" ? REVIEWS.length : REVIEWS.filter((r) => r.service === x.k || (x.k === "ops" && r.service === "success")).length;
+          const n = REVIEWS.filter((r) => match(x.k, r.service)).length;
           return (
             <button
               key={x.k}
@@ -37,27 +50,51 @@ export default function Reviews() {
         })}
       </div>
 
-      <div key={f} className="no-scrollbar -mx-[var(--gutter)] mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-[var(--gutter)] pb-2 md:mx-0 md:block md:columns-2 md:gap-4 md:overflow-visible md:px-0 xl:columns-3">
-        {list.map((r, i) => (
-          <figure
-            key={r.project}
-            data-tilt="0" className="spot sheet-in w-[84vw] max-w-[360px] flex-none snap-center rounded-[20px] p-6 md:mb-4 md:w-auto md:max-w-none md:break-inside-avoid"
-            style={{ background: "var(--ink-2)", animationDelay: `${i * 50}ms`, border: "1px solid var(--line)" }}
-          >
-            <div className="flex gap-0.5" style={{ color: "var(--orange)" }} role="img" aria-label="5 out of 5 stars">
-              {Array.from({ length: 5 }).map((_, j) => <Star key={j} />)}
-            </div>
-            <blockquote className="mt-4 text-[17px] leading-relaxed" style={{ color: "#ecE9e1" }}>
-              &ldquo;{r.quote}&rdquo;
-            </blockquote>
-            <figcaption className="mt-5 border-t pt-4 text-[13px]" style={{ borderColor: "var(--line)" }}>
-              <p style={{ color: "#cfccc4" }}>{r.project}</p>
-              <p className="mono mt-1 text-[11px] uppercase tracking-[0.06em]" style={{ color: "var(--faint)" }}>
-                {r.who === "Team" ? "Babar Tech team" : r.who} · {r.period}{r.hours ? ` · ${r.hours} hrs` : " · fixed price"}
-              </p>
-            </figcaption>
-          </figure>
-        ))}
+      <div data-reveal="fade" className="notes">
+        <div key={f} className="no-scrollbar -mx-[var(--gutter)] mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[var(--gutter)] pt-4 pb-10 md:mx-0 md:block md:columns-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 xl:columns-3">
+          {list.map((r, i) => {
+            const paper = PAPERS[i % PAPERS.length];
+            const m = TEAM.find((t) => t.slug === r.who.toLowerCase());
+            const short = r.quote.length < 110;
+            return (
+              <div key={r.project} className="w-[80vw] max-w-[340px] flex-none snap-center md:mb-10 md:w-auto md:max-w-none md:break-inside-avoid" data-parallax={DEPTH[i % DEPTH.length]}>
+                <figure
+                  className="note note-in relative rounded-[6px] px-6 pt-8 pb-6 sm:px-7"
+                  style={{ background: paper.bg, color: paper.fg, ["--r" as string]: `${TILT[i % TILT.length]}deg`, ["--i" as string]: i } as CSSProperties}
+                >
+                  <span aria-hidden className="note__tape" style={{ background: paper.tape }} />
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-0.5" style={{ color: "var(--orange)" }} role="img" aria-label="5 out of 5 stars">
+                      {Array.from({ length: 5 }).map((_, j) => <Star key={j} size={14} />)}
+                    </div>
+                    <span className="note__stamp mono" style={{ color: paper.stamp, borderColor: paper.stamp }}>
+                      {r.hours ? `${r.hours} hrs` : "Fixed price"}
+                    </span>
+                  </div>
+                  <blockquote className={`mt-5 font-medium tracking-[-0.02em] ${short ? "text-[clamp(1.35rem,1.9vw,1.6rem)] leading-[1.2]" : "text-[17px] leading-[1.45]"}`}>
+                    &ldquo;{r.quote}&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-6 flex items-center gap-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={m ? m.photo.replace("-400", "-96") : "/img/mark.webp"}
+                      alt=""
+                      width={44}
+                      height={44}
+                      loading="lazy"
+                      className="h-11 w-11 flex-none rounded-full object-cover"
+                      style={{ boxShadow: "0 0 0 3px #fff, 0 6px 14px -6px rgb(15 17 20 / .5)", background: "#fff", padding: m ? 0 : 6 }}
+                    />
+                    <div className="min-w-0">
+                      <p className="text-[24px] leading-none [font-family:var(--font-hand)]">for {m ? m.name.split(" ")[0] : "the team"}</p>
+                      <p className="mt-1.5 truncate text-[12px]" style={{ color: paper.sub }}>{r.project} · {r.period}</p>
+                    </div>
+                  </figcaption>
+                </figure>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
