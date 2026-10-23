@@ -10,8 +10,10 @@ import Viz from "../Viz";
 import Words from "../Words";
 
 /* Clay objects that float beside each service. Add one here as /img/obj/<name>-{360,720}.webp lands. */
-const OBJECTS: Partial<Record<VizKind, { name: string; alt: string }>> = {
-  sales: { name: "phone", alt: "" },
+const OBJECTS: Partial<Record<VizKind, { name: string; h: number }>> = {
+  support: { name: "headset", h: 735 },
+  assist: { name: "planner", h: 678 },
+  sales: { name: "phone", h: 718 },
 };
 
 /**
@@ -109,9 +111,9 @@ export default function ServicesFlow() {
                         src={`/img/obj/${obj.name}-720.webp`}
                         srcSet={`/img/obj/${obj.name}-360.webp 360w, /img/obj/${obj.name}-720.webp 720w`}
                         sizes="(min-width: 1024px) 22vw, 40vw"
-                        alt={obj.alt}
+                        alt=""
                         width={720}
-                        height={718}
+                        height={obj.h}
                         loading="lazy"
                         className="h-auto w-full"
                         style={{ filter: "drop-shadow(0 40px 40px rgb(15 17 20 / .28))" }}
