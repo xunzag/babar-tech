@@ -14,6 +14,9 @@ const OBJECTS: Partial<Record<VizKind, { name: string; h: number }>> = {
   support: { name: "headset", h: 735 },
   assist: { name: "planner", h: 678 },
   sales: { name: "phone", h: 718 },
+  success: { name: "trophy", h: 1032 },
+  ops: { name: "clipboard", h: 913 },
+  dev: { name: "laptop", h: 666 },
 };
 
 /**
@@ -105,7 +108,7 @@ export default function ServicesFlow() {
                     </span>
                   ))}
                   {obj && (
-                    <div data-sf-obj className={`pointer-events-none absolute -top-[26%] w-[34%] will-change-transform sm:w-[28%] ${flip ? "-left-[9%]" : "-right-[9%]"}`}>
+                    <div data-sf-obj className={`pointer-events-none absolute -top-[26%] will-change-transform ${obj.h > 800 ? "w-[26%] sm:w-[21%]" : "w-[34%] sm:w-[28%]"} ${flip ? "-left-[9%]" : "-right-[9%]"}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={`/img/obj/${obj.name}-720.webp`}
