@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, useSyncExternalStore, type ChangeEvent } from "react";
+import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type ChangeEvent } from "react";
 import { SERVICES, SITE } from "./content";
 import { Arrow, Check } from "./Icons";
 import { useTimeZone } from "./useClock";
@@ -35,8 +35,8 @@ function Blank({ name, value, placeholder, onChange, type = "text", required, au
   type?: string; required?: boolean; autoComplete?: string; label: string;
 }) {
   return (
-    <span className="blank">
-      <span aria-hidden className="blank__mirror">{value || placeholder}</span>
+    <span className={`tok tok--text ${value ? "is-filled" : ""}`}>
+      <span aria-hidden className="tok__mirror">{value || placeholder}</span>
       <input
         name={name}
         type={type}
@@ -45,20 +45,73 @@ function Blank({ name, value, placeholder, onChange, type = "text", required, au
         required={required}
         autoComplete={autoComplete}
         aria-label={label}
+        spellCheck={false}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
       />
     </span>
   );
 }
 
+/** An inline choice: a token that opens a small menu card (listbox) under it. */
 function Pick({ value, options, onChange, label }: { value: string; options: { v: string; l: string }[]; onChange: (v: string) => void; label: string }) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const root = useRef<HTMLSpanElement>(null);
+  const id = useId();
   const current = options.find((o) => o.v === value)?.l ?? value;
+
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: PointerEvent) => { if (!root.current?.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [open]);
+
+  const show = () => { setActive(Math.max(0, options.findIndex((o) => o.v === value))); setOpen(true); };
+  const choose = (i: number) => { onChange(options[i].v); setOpen(false); };
+  const onKey = (e: React.KeyboardEvent) => {
+    if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); show(); return; }
+    if (!open) return;
+    if (e.key === "Escape") { e.preventDefault(); setOpen(false); }
+    else if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => (a + 1) % options.length); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => (a - 1 + options.length) % options.length); }
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(active); }
+    else if (e.key === "Tab") setOpen(false);
+  };
+
   return (
-    <span className="blank blank--pick">
-      <span aria-hidden className="blank__mirror">{current}</span>
-      <select value={value} aria-label={label} onChange={(e) => onChange(e.target.value)}>
-        {options.map((o) => <option key={o.v} value={o.v}>{o.l}</option>)}
-      </select>
+    <span ref={root} className="tok-wrap">
+      <button
+        type="button"
+        className="tok tok--pick is-filled"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={id}
+        aria-label={`${label}: ${current}`}
+        onClick={() => (open ? setOpen(false) : show())}
+        onKeyDown={onKey}
+      >
+        {current}
+        <svg className="tok__chev" viewBox="0 0 12 12" aria-hidden><path d="M3 4.5 6 7.5l3-3" /></svg>
+      </button>
+      {open && (
+        <ul id={id} role="listbox" aria-label={label} className="tok-menu">
+          {options.map((o, i) => (
+            <li
+              key={o.v}
+              id={`${id}-${i}`}
+              role="option"
+              aria-selected={o.v === value}
+              className={i === active ? "is-active" : ""}
+              onPointerEnter={() => setActive(i)}
+              onClick={() => choose(i)}
+            >
+              <span>{o.l}</span>
+              {o.v === value && <Check size={16} />}
+            </li>
+          ))}
+        </ul>
+      )}
     </span>
   );
 }
@@ -148,47 +201,71 @@ export default function ContactForm() {
     );
   }
 
+  const filled = [name.trim(), email.trim()].filter(Boolean).length;
+
   return (
-    <form onSubmit={submit} className="brief">
+    <form onSubmit={submit} className="brief-card">
       <p hidden><label>Leave this empty <input name="bot-field" /></label></p>
-      {draft && (
-        <p className="sheet-in mb-8 inline-flex items-center gap-3 rounded-full px-4 py-2 text-[14px]" style={{ background: "rgb(242 112 31 / .12)" }} role="status">
-          <Check size={16} className="flex-none" style={{ color: "var(--orange-ink)" }} />
-          Your team from the builder is filled in{draft.roles.length > 1 ? `: ${draft.roles.join(", ")}` : ""}.
+
+      {/* header: who it goes to */}
+      <div className="flex items-center justify-between gap-4 border-b px-5 py-4 sm:px-8" style={{ borderColor: "var(--line)" }}>
+        <div className="flex min-w-0 items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/img/team/fahad-96.webp" alt="" width={32} height={32} className="h-8 w-8 flex-none rounded-full object-cover" />
+          <p className="truncate text-[14px]">
+            <span style={{ color: "var(--mute)" }}>To </span><span className="font-medium">Fahad Ali</span>
+            <span className="max-sm:hidden" style={{ color: "var(--mute)" }}> · founder, reads every brief</span>
+          </p>
+        </div>
+        <div className="flex flex-none items-center gap-2" aria-label={`${filled} of 2 required details filled`}>
+          <span className="mono text-[11px] uppercase tracking-[0.08em]" style={{ color: "var(--mute)" }}>New brief</span>
+          <span className="flex gap-1">
+            {[0, 1].map((i) => <span key={i} className="h-1.5 w-4 rounded-full transition-colors duration-500" style={{ background: i < filled ? "var(--orange)" : "var(--line-strong)" }} />)}
+          </span>
+        </div>
+      </div>
+
+      {/* body: the sentence */}
+      <div className="px-5 pt-8 pb-10 sm:px-8 sm:pt-10 sm:pb-12">
+        {draft && (
+          <p className="sheet-in mb-6 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px]" style={{ background: "rgb(242 112 31 / .1)" }} role="status">
+            <Check size={14} className="flex-none" style={{ color: "var(--orange-ink)" }} />
+            Filled in from your team{draft.roles.length > 1 ? `: ${draft.roles.join(", ")}` : ""}
+          </p>
+        )}
+        <p className="brief__sentence">
+          Hi, I&apos;m <Blank name="name" label="Your name" value={name} onChange={setName} placeholder="your name" required autoComplete="name" />
+          {" "}from <Blank name="company" label="Company (optional)" value={company} onChange={setCompany} placeholder="your company" autoComplete="organization" />.
+          {" "}I need help with <Pick label="What you need help with" value={role} onChange={setRole} options={roleOptions} />,
+          {" "}for <Pick label="How much" value={hours} onChange={setHours} options={HOURS.map((h) => ({ v: h, l: h }))} />,
+          {" "}starting <Pick label="When to start" value={start} onChange={setStart} options={STARTS.map((s) => ({ v: s, l: s }))} />.
+          {" "}You can reach me at <Blank name="email" type="email" label="Work email" value={email} onChange={setEmail} placeholder="you@company.com" required autoComplete="email" />.
         </p>
-      )}
+      </div>
 
-      <p className="brief__sentence">
-        Hi, I&apos;m <Blank name="name" label="Your name" value={name} onChange={setName} placeholder="your name" required autoComplete="name" />
-        {" "}from <Blank name="company" label="Company (optional)" value={company} onChange={setCompany} placeholder="your company" autoComplete="organization" />.
-        {" "}I need help with <Pick label="What you need help with" value={role} onChange={setRole} options={roleOptions} />,
-        {" "}for <Pick label="How much" value={hours} onChange={setHours} options={HOURS.map((h) => ({ v: h, l: h }))} />,
-        {" "}starting <Pick label="When to start" value={start} onChange={setStart} options={STARTS.map((s) => ({ v: s, l: s }))} />.
-        {" "}Reach me at <Blank name="email" type="email" label="Work email" value={email} onChange={setEmail} placeholder="you@company.com" required autoComplete="email" />.
-      </p>
-
-      <label className="mt-12 block max-w-3xl">
-        <span className="mono text-[11px] uppercase tracking-[0.08em]" style={{ color: "var(--mute)" }}>Anything else? (optional)</span>
+      {/* details */}
+      <label className="block border-t px-5 py-5 sm:px-8" style={{ borderColor: "var(--line)" }}>
+        <span className="sr-only">Anything else? (optional)</span>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
-          placeholder="Tools you use, volume, the hours you need covered…"
-          className="mt-3 w-full resize-y border-b bg-transparent py-3 text-[18px] outline-none transition-colors focus:border-[var(--ink)]"
-          style={{ borderColor: "var(--line-strong)" }}
+          placeholder="Add details, if you like: the tools you use, volume, the hours you need covered…"
+          className="block w-full resize-none bg-transparent text-[16px] leading-relaxed outline-none placeholder:text-[var(--faint)]"
         />
       </label>
 
-      <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <button type="submit" disabled={state === "sending"} className="btn btn-orange !px-8 !py-5 !text-[17px] disabled:opacity-60">
-          {state === "sending" ? "Sending…" : "Send it to Fahad"} <Arrow size={18} className="arr" />
-        </button>
-        <p className="max-w-sm text-[13px]" style={{ color: "var(--faint)" }}>
-          We use these details only to reply to you. See our <Link href="/privacy/" className="underline underline-offset-2">privacy policy</Link>.
+      {/* footer */}
+      <div className="flex flex-col-reverse gap-4 rounded-b-[inherit] border-t px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8" style={{ borderColor: "var(--line)", background: "var(--paper)" }}>
+        <p className="text-[12.5px]" style={{ color: "var(--faint)" }}>
+          Only used to reply to you · <Link href="/privacy/" className="underline underline-offset-2">Privacy</Link>
         </p>
+        <button type="submit" disabled={state === "sending"} className="btn btn-orange disabled:opacity-60">
+          {state === "sending" ? "Sending…" : "Send brief"} <Arrow size={16} className="arr" />
+        </button>
       </div>
       {state === "mail" && (
-        <p className="mt-4 text-[14px]" style={{ color: "var(--mute)" }} role="status">
+        <p className="border-t px-5 py-4 text-[14px] sm:px-8" style={{ borderColor: "var(--line)", color: "var(--mute)" }} role="status">
           We opened your email app with the brief filled in. If nothing happened, email us at{" "}
           <a className="underline" href={`mailto:${SITE.email}`}>{SITE.email}</a>.
         </p>

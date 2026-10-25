@@ -582,26 +582,49 @@ html.intro .words-auto .w > span { animation-delay: calc(var(--i) * 70ms + var(-
 
 /* ═══════════════════════ Contact: the brief as a sentence ═══════════════════════ */
 @layer components {
+  .brief-card {
+    border-radius: 28px; background: var(--card);
+    box-shadow: 0 0 0 1px rgb(15 17 20 / .07), 0 2px 4px rgb(15 17 20 / .03), 0 60px 120px -60px rgb(15 17 20 / .4);
+  }
   .brief__sentence {
-    font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em;
-    font-size: clamp(1.75rem, 4.1vw, 3.5rem); line-height: 1.32;
+    font-family: var(--font-display); font-weight: 500; letter-spacing: -0.03em; color: var(--ink);
+    font-size: clamp(1.5rem, 2.9vw, 2.55rem); line-height: 1.55;
   }
-  .blank { display: inline-block; position: relative; vertical-align: baseline; max-width: 100%; }
-  .blank > * { font: inherit; letter-spacing: inherit; }
-  .blank__mirror { visibility: hidden; white-space: pre; padding: 0 0.1em; min-width: 2ch; }
-  .blank input, .blank select {
-    position: absolute; inset: 0; height: 100%;
-    width: 100%; min-width: 0; margin: 0; padding: 0 0.1em; border: 0; border-radius: 0; outline: 0;
-    background: transparent; color: var(--orange-ink); -webkit-appearance: none; appearance: none;
-    box-shadow: inset 0 -0.07em 0 var(--orange);
-    transition: box-shadow 0.3s var(--ease-out), background-color 0.3s ease;
+  /* tokens: the blanks and choices inside the sentence */
+  .tok-wrap { position: relative; display: inline-block; }
+  .tok {
+    position: relative; display: inline-flex; align-items: center; gap: 0.2em;
+    margin: 0 0.04em; padding: 0 0.3em; border-radius: 0.24em;
+    font: inherit; letter-spacing: inherit; line-height: 1.25; color: var(--ink); vertical-align: baseline;
+    background: transparent;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
   }
-  .blank input::placeholder { color: #b9b2a6; opacity: 1; }
-  .blank input:focus, .blank select:focus { background: rgb(242 112 31 / .09); box-shadow: inset 0 -0.13em 0 var(--orange); }
-  .blank--pick select { cursor: pointer; padding-right: 0.75em; }
-  .blank--pick .blank__mirror { padding-right: 0.75em; }
-  .blank--pick::after { content: ""; position: absolute; right: 0.12em; top: 55%; width: 0.22em; height: 0.22em; border: solid var(--orange); border-width: 0 0.07em 0.07em 0; transform: translateY(-75%) rotate(45deg); pointer-events: none; }
-  .blank select option { font-family: var(--font-body); font-size: 16px; letter-spacing: 0; color: var(--ink); }
+  .tok.is-filled { background: rgb(242 112 31 / .11); box-shadow: inset 0 0 0 1px rgb(242 112 31 / .22); }
+  .tok--text:not(.is-filled) { box-shadow: inset 0 -2px 0 rgb(15 17 20 / .14); border-radius: 0.12em 0.12em 0 0; }
+  .tok--text:not(.is-filled):hover { background: rgb(15 17 20 / .035); }
+  .tok--pick { cursor: pointer; }
+  .tok--pick:hover, .tok--pick[aria-expanded="true"] { background: rgb(242 112 31 / .18); }
+  .tok:focus-within, .tok:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .tok__mirror { visibility: hidden; white-space: pre; min-width: 3ch; }
+  .tok--text input {
+    position: absolute; inset: 0; width: 100%; padding: 0 0.3em; margin: 0; border: 0; outline: 0; background: transparent;
+    font: inherit; letter-spacing: inherit; color: inherit; border-radius: inherit;
+  }
+  .tok--text input::placeholder { color: #aaa49a; opacity: 1; }
+  .tok__chev { width: 0.42em; height: 0.42em; flex: none; fill: none; stroke: var(--orange-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s ease; }
+  .tok--pick[aria-expanded="true"] .tok__chev { transform: rotate(180deg); }
+  .tok-menu {
+    position: absolute; z-index: 30; left: 0; top: calc(100% + 8px); min-width: 260px; max-width: calc(100vw - 2 * var(--gutter));
+    padding: 6px; border-radius: 16px; background: #fff;
+    font-family: var(--font-body); font-size: 15px; font-weight: 400; letter-spacing: 0; line-height: 1.3;
+    box-shadow: 0 0 0 1px rgb(15 17 20 / .08), 0 24px 48px -16px rgb(15 17 20 / .3);
+    animation: tok-menu 0.22s var(--ease-out) both; transform-origin: top left;
+  }
+  .tok-menu li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+  .tok-menu li.is-active { background: var(--paper); }
+  .tok-menu li[aria-selected="true"] { font-weight: 500; }
+  .tok-menu li svg { color: var(--orange-ink); flex: none; }
+  @keyframes tok-menu { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
 
   .todo-sheet { background: #fdfcf8; box-shadow: 0 1px 0 #fff inset, 0 40px 80px -40px rgb(15 17 20 / .45), 0 0 0 1px rgb(15 17 20 / .06); transform: rotate(1.5deg); }
   .brief-sent { animation: sheet-in 0.6s var(--ease-out) both; }
