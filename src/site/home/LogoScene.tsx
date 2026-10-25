@@ -3,12 +3,6 @@
 import { useRef } from "react";
 import { useGsap } from "../gsap";
 
-const ROWS = [
-  { text: "Support · Sales · Assistance · ", outline: false },
-  { text: "Operations · Success · Development · ", outline: true },
-  { text: "Your team, already on shift · ", outline: false },
-];
-
 /* The mark, cut into its three pieces. Each flies in from its own spot in 3D space;
    `from` is relative to the logo's size (x/y in %) and depth in px. */
 const PIECES = [
@@ -21,8 +15,8 @@ const PIECES = [
 const DEPTH = [1, 2, 3, 4, 5, 6, 7, 8];
 
 /**
- * Scroll scene, never pinned: as the section passes, the stage drifts at ~70% of scroll speed,
- * the giant word rows slide sideways and the logo's pieces fly together, then the whole mark turns.
+ * Scroll scene, never pinned: on a dark stage, as the section passes, the stage drifts at ~70% of
+ * scroll speed and the logo's pieces fly together while a glow in the logo's colours blooms behind them.
  */
 export default function LogoScene() {
   const root = useRef<HTMLElement>(null);
@@ -31,6 +25,7 @@ export default function LogoScene() {
     const q = gsap.utils.selector(root);
     if (reduced) {
       gsap.set(q("[data-ls-label]"), { opacity: 0 });
+      gsap.set(q("[data-ls-glow]"), { opacity: 1, scale: 1 });
       return;
     }
     const k = mobile ? 0.6 : 1;
@@ -39,9 +34,8 @@ export default function LogoScene() {
       defaults: { ease: "none" },
     });
     tl.fromTo(q("[data-ls-stage]"), { y: () => -window.innerHeight * 0.35 }, { y: () => window.innerHeight * 0.35, duration: 1 }, 0);
-    q("[data-ls-row]").forEach((row, i) => {
-      tl.fromTo(row, { xPercent: i % 2 ? -30 : 0 }, { xPercent: i % 2 ? 0 : -30, duration: 1 }, 0);
-    });
+    tl.fromTo(q("[data-ls-glow]"), { opacity: 0.2, scale: 0.6 }, { opacity: 1, scale: 1, ease: "power2.in", duration: 0.5 }, 0.04)
+      .to(q("[data-ls-glow]"), { scale: 1.15, opacity: 0.8, duration: 0.46 }, 0.54);
     tl.fromTo(q("[data-ls-mark]"), { rotationY: -38, rotationX: 22, scale: 0.8 }, { rotationY: 0, rotationX: 0, scale: 1, ease: "power2.out", duration: 0.5 }, 0)
       .to(q("[data-ls-mark]"), { rotationY: 14, rotationX: -6, scale: 1.04, duration: 0.5 }, 0.5);
     PIECES.forEach((p, i) => {
@@ -58,21 +52,14 @@ export default function LogoScene() {
   });
 
   return (
-    <section ref={root} className="relative h-[130svh] overflow-hidden" aria-label="One team for everything on your list">
+    <section ref={root} data-expand className="ink relative h-[130svh] overflow-hidden" aria-label="One team for everything on your list">
       <div data-ls-stage className="absolute inset-x-0 top-[15svh] flex h-[100svh] flex-col justify-center will-change-transform">
-        <div aria-hidden className="pointer-events-none flex flex-col gap-[1vw] select-none">
-          {ROWS.map((r, i) => (
-            <div key={i} data-ls-row className="whitespace-nowrap will-change-transform">
-              <span
-                className="display !text-[clamp(4rem,13vw,13rem)] !leading-[1]"
-                style={r.outline ? { color: "transparent", WebkitTextStroke: "2px var(--ink)" } : { opacity: 0.9 }}
-              >
-                {r.text.repeat(3)}
-              </span>
-            </div>
-          ))}
-        </div>
-
+        <div
+          data-ls-glow
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 left-1/2 -mt-[min(55vw,460px)] -ml-[min(55vw,460px)] aspect-square w-[min(110vw,920px)] rounded-full will-change-transform"
+          style={{ background: "radial-gradient(closest-side, rgb(242 112 31 / .42), rgb(142 72 220 / .22) 38%, rgb(35 80 224 / .12) 58%, rgb(35 80 224 / .05) 76%, rgb(35 80 224 / .015) 90%, rgb(35 80 224 / 0))" }}
+        />
         <div className="absolute inset-0 grid place-items-center" style={{ perspective: "1100px" }}>
           <div data-ls-mark role="img" aria-label="Babar Tech Solutions logo" className="relative aspect-[704/720] w-[min(70vw,520px)]" style={{ transformStyle: "preserve-3d" }}>
             {PIECES.map((p) => (
@@ -86,7 +73,7 @@ export default function LogoScene() {
                 <span
                   data-ls-label
                   className={`absolute ${p.at} rounded-full px-3 py-1.5 mono text-[10px] uppercase tracking-[0.08em] whitespace-nowrap sm:text-[11px]`}
-                  style={{ background: "var(--ink)", color: "var(--cream)", transform: "translateZ(40px)", boxShadow: "0 10px 24px -10px rgb(15 17 20 / .5)" }}
+                  style={{ background: "var(--cream)", color: "var(--ink)", transform: "translateZ(40px)", boxShadow: "0 12px 28px -10px rgb(0 0 0 / .6)" }}
                 >
                   {p.label}
                 </span>
